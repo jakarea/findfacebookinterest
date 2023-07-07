@@ -4,7 +4,6 @@ use App\Http\Controllers\HydraController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
