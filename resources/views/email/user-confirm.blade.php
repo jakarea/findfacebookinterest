@@ -356,7 +356,7 @@
                                                                             style="margin: 0; font-size: 16px; text-align: center; mso-line-height-alt: 19.2px;">
                                                                             <span
                                                                                 style="color:#2b303a;font-size:18px;"><strong>Use
-                                                                                    this Code</strong></span>
+                                                                                    this link</strong></span>
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -372,11 +372,11 @@
                                                                 <div style="font-family: sans-serif">
                                                                     <div class=""
                                                                         style="font-size: 12px; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #555555; line-height: 1.2;">
-                                                                        <p
+                                                                        <a href="{{ $data['url'] }}"
                                                                             style="margin: 0; font-size: 16px; text-align: center; mso-line-height-alt: 19.2px;">
                                                                             <span style="color:#1aa19c;"><span
-                                                                                    style=""><strong>https://larachamp.com/how-to-send-mail-in-laravel-with-template/</strong></span></span>
-                                                                        </p>
+                                                                                    style=""><strong>{{ $data['url'] }}</strong></span></span>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -413,13 +413,13 @@
                                                                 style="padding-left:10px;padding-right:10px;padding-top:40px;text-align:center;">
                                                                 <div align="center" class="alignment">
                                                                     <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:62px;width:166px;v-text-anchor:middle;" arcsize="97%" stroke="false" fillcolor="#1aa19c"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, sans-serif; font-size:16px"><![endif]-->
-                                                                    <div
+                                                                    <a href="{{ $data['url'] }}"
                                                                         style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#1aa19c;border-radius:60px;width:auto;border-top:0px solid transparent;font-weight:undefined;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:15px;padding-bottom:15px;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;">
                                                                         <span
                                                                             style="padding-left:30px;padding-right:30px;font-size:16px;display:inline-block;letter-spacing:normal;"><span
                                                                                 style="margin: 0; word-break: break-word; line-height: 32px;"><strong>Activate
                                                                                     Now</strong></span></span>
-                                                                    </div>
+                                                                    </a>
                                                                     <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
                                                                 </div>
                                                             </td>
