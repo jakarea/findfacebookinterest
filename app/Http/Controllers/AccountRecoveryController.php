@@ -34,7 +34,7 @@ class AccountRecoveryController extends Controller
         $url = env('APP_URL') . '/recover/account/' . $creds['email'] . '?token=' . $hash;
         try {
             $data = [
-                'subject' => $hash,
+                'subject' => 'Account Recover',
                 'body' => 'Welcome to our app. To Move Forward please and update your password',
                 "url" => $url
             ];
