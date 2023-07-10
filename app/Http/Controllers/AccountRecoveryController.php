@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AccountRecoverVerifyRequest;
 use App\Http\Requests\AccountRecoveryStoreRequest;
 use App\Mail\AccountRecoveryMail;
 use App\Models\User;
+use Carbon\Carbon;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mail;
@@ -44,7 +47,7 @@ class AccountRecoveryController extends Controller
         $url = env('APP_URL') . '/recover/account/' . $creds['email'] . '?token=' . $hash;
         try {
             $data = [
-                'subject' => 'Verify your account',
+                'subject' => $hash,
                 'body' => 'Welcome to our app. To Move Forward please and update your password',
                 "url" => $url
             ];
@@ -52,7 +55,7 @@ class AccountRecoveryController extends Controller
 
             $data = DB::table('password_resets')->where('email', $creds['email'])->first();
             if ($data) {
-                DB::table('password_resets')->where('email', $creds['email'])->update(['token' => $hash]);
+                DB::table('password_resets')->where('email', $creds['email'])->update(['token' => $hash, 'created_at' => Carbon::now()]);
             } else {
                 DB::table('password_resets')->insert(['email' => $creds['email'], 'token' => $hash]);
             }
@@ -61,6 +64,40 @@ class AccountRecoveryController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['Sorry! Please try again latter']);
         }
+
+    }
+    /**
+     * Verify email and token for resetting password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function verify(AccountRecoverVerifyRequest $request)
+    {
+        $creds = $request->all();
+        $errorResponse = [
+            'success' => false,
+            'message' => 'Invalid Credentials',
+            'data' => []
+        ];
+        if (!Hash::check(env('RESET_PASSWORD_HASH_SECRET'), $creds['token'])) {
+            return response()->json($errorResponse, 400);
+        }
+
+        $item = DB::table('password_resets')->where('email', $creds['email'])->first();
+        if (!$item) {
+            return response()->json($errorResponse, 400);
+        }
+
+        if ($item->token != $creds['token']) {
+            return response()->json($errorResponse, 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Credential verified!',
+            'data' => []
+        ]);
 
     }
 
