@@ -34,6 +34,7 @@ Route::put('verify/account/{email}', [UserController::class, 'verify']);
 
 Route::post('account/recover/verify', [AccountRecoveryController::class, 'verify'])->middleware('guest');
 Route::post('account/recover/request', [AccountRecoveryController::class, 'store'])->middleware('guest');
+Route::put('account/recover/update', [AccountRecoveryController::class, 'update'])->middleware('guest');
 
 
 
