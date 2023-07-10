@@ -9,12 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UserConfirmMail extends Mailable
+class AccountRecoveryMail extends Mailable
 {
     use Queueable, SerializesModels;
-
     private $data = [];
-
     /**
      * Create a new message instance.
      *
@@ -23,6 +21,7 @@ class UserConfirmMail extends Mailable
     public function __construct($data)
     {
         $this->data = $data;
+        //
     }
 
     /**
@@ -46,7 +45,7 @@ class UserConfirmMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'email.user-confirm',
+            view: 'email.account-recovery-mail',
             with: [
                 'data' => $this->data
             ]
