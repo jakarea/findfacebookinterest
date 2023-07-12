@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Keyword\KeywordStoreRequest;
+use App\Http\Requests\Keyword\KeySearchRequest;
+use App\Http\Requests\Keyword\StoreKeywordRequest;
+use App\Models\Keyword;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 
 class KeywordController extends Controller
 {
+
     private $apiBase = 'https://graph.facebook.com/v16.0';
     /**
      * Display a listing of the resource.
@@ -16,23 +18,33 @@ class KeywordController extends Controller
      */
     public function index()
     {
-        //
-        $url = $this->apiBase . "/search?type=adinterest&q=fitness&limit=10000&locale=&access_token=" . env('FACEBOOK_ACCESS_TOKEN');
-        $data = $this->makeGetRequest($url);
-        return ($data);
+        $data = Keyword::all();
+        return response()->json($data);
     }
+
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Keyword\StoreKeywordRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(KeywordStoreRequest $request)
+    public function store(StoreKeywordRequest $request)
+    {
+        $data = $request->all();
+
+        $item = Keyword::create($data);
+
+        return response()->json($item);
+    }
+
+
+
+
+    public function search(KeySearchRequest $request)
     {
 
         $data = $request->all();
-
         $client = new Client();
 
         $type = 'adinterest';
@@ -44,62 +56,8 @@ class KeywordController extends Controller
             $limit = $data['limit'];
 
         $url = sprintf('%s/search?type=%s&q=%s&limit=%s&locale=&access_token=%s', $this->apiBase, $type, $key, $limit, env('FACEBOOK_ACCESS_TOKEN'));
-
         $response = $client->get($url);
-
         $body = $response->getBody()->getContents();
-
         return response()->json(json_decode($body));
-
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-
-    private function makeGetRequest($url)
-    {
-        $client = new Client();
-        $response = $client->get($url);
-
-        // Get the response body as a string
-        $body = $response->getBody()->getContents();
-
-        // Process the response
-        // ...
-
-        return response()->json($body);
     }
 }
