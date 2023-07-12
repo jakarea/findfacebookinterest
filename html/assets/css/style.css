@@ -377,6 +377,42 @@ body {
 }
 .common-bttn:hover {
   background-color: #444250;
+  color: #FFF;
+}
+
+.common-heading {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+.common-heading h2 {
+  color: var(--nutral-800, #32363C);
+  font-family: "CabinetGrotesk-Variable";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 52px;
+  letter-spacing: -0.4px;
+}
+.common-heading p {
+  color: var(--nutral-500, #6F7984);
+  text-align: center;
+  font-family: "Satoshi-Medium";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+}
+
+.mt-5 {
+  margin-top: 5rem !important;
+}
+
+.text-end {
+  text-align: end !important;
+}
+
+.text-start {
+  text-align: start !important;
 }
 
 .poster-section .poster-box-wrap {
@@ -426,4 +462,284 @@ body {
   display: block;
   width: 100%;
   border-radius: 1rem 0 2rem 0;
+}
+
+.discover-section .discover-post-wrap {
+  border-radius: 40px;
+  border: 2px solid #EAF2FE;
+  background: #FFF6F2;
+}
+.discover-section .discover-2 {
+  background: #F9FFF5;
+}
+.discover-section .d-grid {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  align-items: center;
+}
+.discover-section .d-grid .discover-txt {
+  padding: 2rem 4rem;
+}
+.discover-section .d-grid .discover-txt h5 {
+  color: var(--nutral-500, #6F7984);
+  font-family: "Satoshi-Medium";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  margin-bottom: 1.5rem;
+}
+.discover-section .d-grid .discover-txt h3 {
+  color: var(--nutral-700, #444250);
+  font-family: "CabinetGrotesk-Variable";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  margin-bottom: 1rem;
+}
+.discover-section .d-grid .discover-txt p {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Regular";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}
+.discover-section .d-grid .discover-txt ul {
+  margin-top: 1.5rem;
+}
+.discover-section .d-grid .discover-txt ul li {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.discover-section .d-grid .discover-txt ul li span {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Regular";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  margin-left: 0.5rem;
+  display: inline-block;
+}
+.discover-section .d-grid .discover-image {
+  text-align: right;
+  padding-top: 1rem;
+}
+.discover-section .d-grid-2 {
+  grid-template-columns: 60% 40%;
+}
+
+.explorer-box-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.explorer-box-wrapper .explorer-box {
+  margin: 0 0.5rem;
+  border-radius: 24px;
+  border: 1px solid #DFECFE;
+  background: #FFF;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+.explorer-box-wrapper .explorer-box .thumbnail img {
+  display: block;
+  width: 100%;
+  border-radius: 1rem;
+}
+.explorer-box-wrapper .explorer-box .txt {
+  margin-top: 1rem;
+  padding: 0 0.5rem;
+}
+.explorer-box-wrapper .explorer-box .txt h5 {
+  overflow: hidden;
+  color: var(--nutral-700, #444250);
+  text-overflow: ellipsis;
+  whitespace: nowrap;
+  font-family: "CabinetGrotesk-Variable";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+.explorer-box-wrapper .explorer-box .txt p {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Variable";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0.18px;
+  margin-top: 0.5rem;
+}
+
+.faq-section {
+  background: #FFF2EB;
+}
+.faq-section .faq-box-wrap {
+  width: 60%;
+  margin: 0 auto;
+}
+.faq-section .faq-box-wrap .faq-box-item {
+  margin-top: 1rem;
+  border-radius: 12px;
+  border: 1px solid #FEE4D5;
+  background: #FFF;
+  transition: all linear 0.3s;
+}
+.faq-section .faq-box-wrap .faq-box-item button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: transparent;
+  padding: 1.2rem 2rem;
+}
+.faq-section .faq-box-wrap .faq-box-item button h5 {
+  color: var(--nutral-700, #444250);
+  font-family: "Satoshi-Medium";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  opacity: 0.67;
+}
+.faq-section .faq-box-wrap .faq-box-item .faq-answer {
+  padding: 1.2rem 2rem;
+  border-top: 1px solid #FEE4D5;
+  display: none;
+  transition: all linear 0.3s;
+}
+.faq-section .faq-box-wrap .faq-box-item .faq-answer p {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Medium";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+}
+.faq-section .faq-box-wrap .faq-box-item.show .faq-answer {
+  display: block !important;
+  transition: all linear 0.3s;
+}
+
+.get-start-sec {
+  border-radius: 40px 40px 0px 0px;
+  background-color: #E5EBFC;
+  background-image: url("../images/get-bg.svg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  padding: 7rem 0;
+}
+.get-start-sec .get-txt-box {
+  text-align: center;
+}
+.get-start-sec .get-txt-box h3 {
+  color: var(--nutral-800, #32363C);
+  font-family: "CabinetGrotesk-Variable";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: -0.4px;
+  margin-bottom: 2rem;
+}
+
+.footer-section {
+  background: #F5F5F5;
+  padding: 4rem 0 2rem;
+}
+.footer-section .d-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.footer-section .d-grid .footer-logo-part .ftr-logo a {
+  display: block;
+}
+.footer-section .d-grid .footer-logo-part h6 {
+  color: var(--nutral-500, #6F7984);
+  font-family: "Satoshi-Regular";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  margin: 2rem 0 1rem;
+}
+.footer-section .d-grid .footer-logo-part ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.footer-section .d-grid .footer-logo-part ul li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #F0F0F0;
+  margin-right: 1rem;
+  transition: all linear 0.2s;
+}
+.footer-section .d-grid .footer-logo-part ul li a:hover {
+  background-color: #E5EBFC;
+}
+.footer-section .d-grid .footer-menu-part {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.footer-section .d-grid .footer-menu-part .ftr-menu-links h6 {
+  color: var(--nutral-700, #444250);
+  font-family: "Satoshi-Medium";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 1rem;
+}
+.footer-section .d-grid .footer-menu-part .ftr-menu-links ul li a {
+  display: block;
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 0.5rem;
+}
+.footer-section .ftr-copy {
+  border-top: 1px solid var(--nutral-200, #D4DAE0);
+  margin-top: 5rem;
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-section .ftr-copy p {
+  color: var(--nutral-500, #6F7984);
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+.footer-section .ftr-copy ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.footer-section .ftr-copy ul li a {
+  display: block;
+  color: var(--nutral-500, #6F7984);
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  margin-left: 1rem;
 }
