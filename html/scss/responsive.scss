@@ -1,0 +1,37 @@
+@use './util/variabls' as v;
+@use './util/media-query' as q;
+
+// small phone device
+@include q.responsive(phone) {
+    
+}
+
+// landscape phone device 
+@include q.responsive(landphone) {
+     
+}
+
+// tablet device 
+@include q.responsive(tablet) {
+     
+}
+
+// landtablet device 
+@include q.responsive(landtablet) {
+    
+}
+
+// regular device 
+@include q.responsive(regular) {
+   
+}
+
+// large device 
+@include q.responsive(large) {
+    
+}
+
+// extra large device 
+@include q.responsive(extralarge) {
+    
+}

@@ -1,0 +1,56 @@
+// layout css
+.container{
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+ 
+@media (min-width: 1430px) {
+    .container {
+        max-width: 1350px;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .container {
+        max-width: 1320px;
+        width: 75%;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .container {
+        max-width: 1140px;
+        width: 80%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .container {
+        max-width: 960px;
+        width: 85%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+    .container {
+        max-width: 720px;
+        width: 90%;
+    }
+}
+
+@media (min-width: 375px) and (max-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+// header css end
