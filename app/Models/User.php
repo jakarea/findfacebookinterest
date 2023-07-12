@@ -7,7 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -19,6 +20,7 @@ class User extends Authenticatable {
         'name',
         'email',
         'password',
+        'confirm_hash',
     ];
 
     /**
@@ -32,6 +34,8 @@ class User extends Authenticatable {
         'created_at',
         'updated_at',
         'email_verified_at',
+        'confirm_hash',
+        'reset_hash',
     ];
 
     /**
@@ -43,7 +47,15 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles() {
+    public function roles()
+    {
         return $this->belongsToMany(Role::class, 'user_roles');
     }
+
+    // public function markEmailAsVerified()
+    // {
+    //     return $this->forceFill([
+    //         'email_verified_at' => $this->freshTimestamp(),
+    //     ])->save();
+    // }
 }
