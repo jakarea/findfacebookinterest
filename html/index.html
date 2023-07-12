@@ -586,12 +586,20 @@
   <!-- faq script -->
   <script>
     let cards = [...document.querySelectorAll(".faq-item")];
-    cards.forEach(card => {
-      card.addEventListener("click", function () {
-        cards.forEach(c => c.parentNode.classList.remove("show"));
-        this.parentNode.classList.add("show");
+
+    // cards.forEach(card => {
+    //   card.addEventListener("click", function () {
+    //     cards.forEach(c => c.parentNode.classList.remove("show"));
+    //     this.parentNode.classList.add("show");
+    //   })
+    // });
+
+      cards.forEach(card => {
+        card.addEventListener("click", function () {
+          card.parentNode.classList.toggle("show"); 
       })
     });
+
   </script>
 
 
