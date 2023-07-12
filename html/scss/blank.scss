@@ -1,0 +1,47 @@
+@forward './base/index';
+@use './util/index' as m;
+@use './util/variabls' as v;
+@use './util/media-query' as q;
+
+// variable  
+$dark: v.$dark;
+$light: v.$light; 
+$primary: v.$primary;  
+$c363848: v.$c363848;
+$cFE8D4D: v.$cFE8D4D; 
+$c2E2E2E: v.$c2E2E2E; 
+$cA9A9A9: v.$cA9A9A9; 
+$shadow1: v.$shadow1; 
+$shadow2: v.$shadow2; 
+$cF0EEFF: v.$cF0EEFF; 
+$cF2F2F2: v.$cF2F2F2; 
+$cF8F9FD: v.$cF8F9FD; 
+// regular css @e
+
+ 
+
+// small phone device
+@include q.responsive(phone) {
+    
+}
+
+// landscape phone device 
+@include q.responsive(landphone) {
+     
+}
+
+// tablet device 
+@include q.responsive(tablet) {
+     
+}
+
+// landtablet device 
+@include q.responsive(landtablet) {
+    
+}
+
+// regular device 
+@include q.responsive(regular) {
+   
+}
+ 
