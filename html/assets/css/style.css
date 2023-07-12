@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap");
 /* *******************************************
 Project Name: WP-Services
 Version: 1.0.0
@@ -133,47 +132,298 @@ p {
 }
 
 body {
-  background-color: #fff;
-  font-family: "Open Sans", sans-serif;
+  background-color: #FAFCFF;
+  font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Poppins", sans-serif;
+.d-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.container {
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 0;
+.pa-y4 {
+  padding: 5rem 0;
+}
+
+.btn {
+  display: inline-block;
+  border: 0;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.navbar-section {
+  background: #FAFCFF;
+  box-shadow: 0px 4px 12px 0px rgba(54, 59, 75, 0.12);
+  padding: 1.2rem 0;
+  font-family: "Satoshi-Medium";
+}
+.navbar-section .header-container {
+  width: 90%;
+  margin: 0 auto;
+}
+.navbar-section .header-container .header-brand a {
+  display: block;
+}
+.navbar-section .header-container .header-brand a img {
+  max-width: 12rem;
+}
+.navbar-section .header-container .header-menu ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.navbar-section .header-container .header-menu ul li a {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #545D68;
+  line-height: normal;
+  margin-left: 2rem;
+}
+.navbar-section .header-container .header-menu ul li a.signup-bttn {
+  border-radius: 6px;
+  background: #0073F9;
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  display: inline-block;
+  transition: all linear 0.2s;
+}
+.navbar-section .header-container .header-menu ul li a.signup-bttn:hover {
+  background-color: #545D68;
+}
+
+.hero-section {
+  background-image: url("../images/hero-bg.svg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 90%;
+}
+.hero-section .hero-txt-box h1 {
+  color: var(--nutral-700, #444250);
+  text-align: center;
+  font-family: "CabinetGrotesk-Variable";
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 64px;
+  letter-spacing: -0.48px;
+}
+.hero-section .hero-txt-box .hero-flag {
+  text-align: center;
+  margin-top: 1rem;
+}
+.hero-section .hero-txt-box .hero-flag span {
+  border-radius: 8px;
+  border: 1px solid #DCEAFA;
+  background: #ADF2BB;
+  color: #455566;
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  display: inline-block;
+  padding: 0.5rem 1.3rem;
+  margin: 0 0.5rem;
+}
+.hero-section .hero-txt-box .hero-flag span:last-child {
+  background: #FBE46C;
+}
+.hero-section .find-interest-search-box {
+  border-radius: 1rem;
+  border: 1px solid #D7DCE0;
+  background: #FFF;
+  box-shadow: 0px 4px 12px 0px rgba(38, 52, 67, 0.12);
+  padding: 20px;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 7rem;
+}
+.hero-section .find-interest-search-box form {
   width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * 0.5);
-  padding-left: calc(var(--bs-gutter-x) * 0.5);
-  margin-right: auto;
-  margin-left: auto;
+  display: block;
+}
+.hero-section .find-interest-search-box form .form-group {
+  width: 75%;
+  position: relative;
+}
+.hero-section .find-interest-search-box form .form-group svg {
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.hero-section .find-interest-search-box form .form-group input {
+  border-radius: 6px;
+  border: 1px solid #DEE0E3;
+  background: #F5FAFF;
+  display: block;
+  width: 100%;
+  height: 3rem;
+  padding-left: 3rem;
+  color: #5A6775;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  font-family: "Satoshi-Regular";
+}
+.hero-section .find-interest-search-box form .form-bttns {
+  width: 25%;
+  text-align: right;
+}
+.hero-section .find-interest-search-box form .form-bttns select {
+  border-radius: 6px;
+  border: 1px solid #B4BDC7;
+  color: #6F7984;
+  text-align: center;
+  font-family: "Satoshi-Regular";
+  font-weight: 400;
+  font-size: 18px;
+  font-style: normal;
+  line-height: 20px;
+  background-color: transparent;
+  padding: 0.65rem 0.8rem;
+  margin: 0 0.6rem;
+}
+.hero-section .find-interest-search-box form .form-bttns select option {
+  font-family: "Satoshi-Regular";
+}
+.hero-section .find-interest-search-box .recent-keywird-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.hero-section .find-interest-search-box .recent-keywird-box a {
+  display: inline-block;
+  border-radius: 4px;
+  border: 1px solid var(--nutral-200, #D4DAE0);
+  background: var(--nutral-100, #EFF2F5);
+  color: var(--nutral-500, #6F7984);
+  text-align: center;
+  font-family: "Satoshi-Medium";
+  font-weight: 500;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 16px;
+  letter-spacing: 0.16px;
+  padding: 0.675rem 1rem;
+  margin-right: 0.6rem;
+  margin-top: 0.8rem;
+  transition: all linear 0.2s;
+}
+.hero-section .find-interest-search-box .recent-keywird-box a:hover {
+  background: #F5FAFF;
+}
+.hero-section .feature-flag-wrap {
+  width: 87%;
+  margin: 0 auto;
+  margin-top: 7rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.hero-section .feature-flag-wrap .feature-box {
+  border-radius: 0.5rem;
+  border: 1px solid #D7DCE0;
+  background: #F5FAFE;
+  box-shadow: 0px 2px 8px 0px rgba(37, 48, 61, 0.08);
+  padding: 1rem 1.5rem;
+  margin: 0 1rem;
+}
+.hero-section .feature-flag-wrap .feature-box .media {
+  align-items: center;
+}
+.hero-section .feature-flag-wrap .feature-box .media svg {
+  margin-right: 1.25rem;
+}
+.hero-section .feature-flag-wrap .feature-box .media .media-body h6 {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+.hero-section .feature-flag-wrap .feat-color-2 {
+  background: #FFF6F2;
+}
+.hero-section .feature-flag-wrap .feat-color-3 {
+  background: #FFFEF5;
 }
 
-@media (min-width: 1400px) {
-  .container {
-    max-width: 1320px;
-  }
+.common-bttn {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: normal;
+  background: #1D81F5;
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  transition: all linear 0.2s;
+  color: #FFF;
+  text-align: center;
+  font-family: "Satoshi-Regular";
+  font-size: 18px;
+  font-style: normal;
+  line-height: 20px;
+  display: inline-block;
+  letter-spacing: 0.18px;
 }
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
+.common-bttn:hover {
+  background-color: #444250;
 }
-@media (min-width: 992px) {
-  .container {
-    max-width: 960px;
-  }
+
+.poster-section .poster-box-wrap {
+  border-radius: 2rem;
+  border: 2px solid #EAF2FE;
+  background: #E5EBFC;
 }
-@media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
+.poster-section .poster-box-wrap .poster-title {
+  padding: 2.5rem 0;
+  text-align: center;
 }
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
-  }
+.poster-section .poster-box-wrap .poster-title h2 {
+  color: var(--nutral-800, #32363C);
+  font-family: "CabinetGrotesk-Variable";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 52px;
+  letter-spacing: -0.4px;
+}
+.poster-section .poster-box-wrap .poster-title h6 {
+  color: var(--nutral-600, #545D68);
+  text-align: center;
+  font-family: "Satoshi-Medium";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+}
+.poster-section .poster-images {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.poster-section .poster-images .thumbnail {
+  margin-right: 0.5rem;
+}
+.poster-section .poster-images .thumbnail img {
+  display: block;
+  width: 100%;
+  border-radius: 0 1rem 0 2rem;
+}
+.poster-section .poster-images .thumbnail-2 {
+  margin-left: 0.5rem;
+}
+.poster-section .poster-images .thumbnail-2 img {
+  display: block;
+  width: 100%;
+  border-radius: 1rem 0 2rem 0;
 }
