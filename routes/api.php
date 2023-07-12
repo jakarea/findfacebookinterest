@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountRecoveryController;
 use App\Http\Controllers\HydraController;
+use App\Http\Controllers\KeywordController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
@@ -35,6 +36,11 @@ Route::put('verify/account/{email}', [UserController::class, 'verify']);
 Route::post('account/recover/verify', [AccountRecoveryController::class, 'verify'])->middleware('guest');
 Route::post('account/recover/request', [AccountRecoveryController::class, 'store'])->middleware('guest');
 Route::put('account/recover/update', [AccountRecoveryController::class, 'update'])->middleware('guest');
+
+
+Route::post('keyword/find', [KeywordController::class, 'store'])->middleware('guest');
+
+// keyword
 
 
 
