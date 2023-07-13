@@ -44,8 +44,13 @@ class KeywordController extends Controller
      */
     public function index()
     {
-        $data = Keyword::all();
-        // get only 10 data 
+        $data_query = Keyword::orderBy('id', 'desc')->take(10);
+        if ($this->isAuthenticated()) {
+            $data = $data_query->where('user_id', $this->user['id'])->get(['name', 'id']);
+        } else {
+            $data = $data_query->get(['name', 'id']);
+        }
+
         return response()->json($data);
     }
 
