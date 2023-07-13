@@ -35,7 +35,7 @@
         <!-- header menu  -->
         <div class="header-menu">
           <ul>
-            <li><a href="#">My Project</a></li>
+            <li><a href="project.html">My Project</a></li>
             <li><a href="#">Log in</a></li>
             <li><a href="#" class="signup-bttn">Sign up</a></li>
           </ul>
@@ -143,7 +143,7 @@
           <h4>32 Interest Selected of 423</h4>
           <!-- filter area start -->
           <div class="header-filter">
-            <button type="button" class="btn">
+            <button type="button" class="btn" onclick="showFilter()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M12.0001 3C14.7548 3 17.4552 3.23205 20.0831 3.67767C20.6159 3.76803 21 4.23355 21 4.77402V5.81802C21 6.41476 20.7629 6.98705 20.341 7.40901L14.909 12.841C14.4871 13.2629 14.25 13.8352 14.25 14.432V17.3594C14.25 18.2117 13.7685 18.9908 13.0062 19.3719L9.75 21V14.432C9.75 13.8352 9.51295 13.2629 9.09099 12.841L3.65901 7.40901C3.23705 6.98705 3 6.41476 3 5.81802V4.77404C3 4.23357 3.38408 3.76805 3.91694 3.67769C6.54479 3.23206 9.24533 3 12.0001 3Z"
@@ -167,7 +167,7 @@
               </svg>
               Export to CSV
             </button>
-            <button type="button" class="btn">
+            <button type="button" class="btn" onclick="showProjectModal()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M12 10.5V16.5M15 13.5H9M13.0607 6.31066L10.9393 4.18934C10.658 3.90804 10.2765 3.75 9.87868 3.75H4.5C3.25736 3.75 2.25 4.75736 2.25 6V18C2.25 19.2426 3.25736 20.25 4.5 20.25H19.5C20.7426 20.25 21.75 19.2426 21.75 18V9C21.75 7.75736 20.7426 6.75 19.5 6.75H14.1213C13.7235 6.75 13.342 6.59197 13.0607 6.31066Z"
@@ -183,7 +183,7 @@
             <thead>
               <tr>
                 <th>
-                  <label class="checbox-cont">Keywords
+                  <label class="checbox-cont">Name
                     <input type="checkbox">
                     <span class="checkmark"></span>
                   </label>
@@ -689,7 +689,7 @@
             Don't miss out on this opportunity to take your business to the next level. Visit giopio.com now and explore
             the possibilities!</p>
 
-            <a href="#" class="common-bttn">Get Started</a>
+          <a href="#" class="common-bttn">Get Started</a>
         </div>
         <!-- attention text -->
       </div>
@@ -810,24 +810,275 @@
   </footer>
   <!-- footer section end -->
 
+  <!-- keyword filter sidebar start -->
+  <div class="keyword-filter-wrap" id="filter-box">
+    <div class="filter-box-wrap">
+      <div class="close-filter">
+        <a href="#" onclick="hideFilter()">X</a>
+      </div>
+      <div class="d-grid">
+        <div class="filter-item">
+          <div class="form-group">
+            <label for="">Min Audience Size</label>
+            <input type="text" placeholder="100">
+          </div>
+          <div class="exclude-word">
+            <h6>Exclude Words</h6>
+            <table>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Magna Malesuada
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  48
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Roots Ahumados
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Tandoori Nights
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">El Deliciós - Comida Etíope
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Ratpenat
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Gastrobar Mali
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  9
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Tapes Jardí
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Pasión Mediterránea
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="text-start">
+                  <a href="#">Deselect all</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="filter-item">
+          <div class="form-group">
+            <label for="">Min Audience Size</label>
+            <input type="text" placeholder="100">
+          </div>
+          <div class="exclude-word">
+            <h6>Exclude Words</h6>
+            <table>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Magna Malesuada
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  48
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Roots Ahumados
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Tandoori Nights
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">El Deliciós - Comida Etíope
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Ratpenat
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  13
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Gastrobar Mali
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  9
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Tapes Jardí
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="checbox-cont">Pasión Mediterránea
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="text-start">
+                  <a href="#">Deselect all</a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- keyword filter sidebar end -->
 
-  <!-- faq script -->
+  <!-- save to project modal start -->
+  <div class="modal-wrapper" id="project-modal">
+    <div class="save-to-project-modal-wrap">
+      <div class="modal-header">
+        <h5>Save to project</h5>
+      </div>
+      <form action="">
+        <div class="modal-input-text">
+          <div class="form-group">
+            <label for="">Save to an existing project</label>
+            <select name="" id="">
+              <option value="">Select your project</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="">Save to new project</label>
+            <input type="text" placeholder="Add Name to your project">
+          </div>
+        </div>
+        <div class="modal-ftr">
+          <button type="button" class="btn btn-cancle" onclick="hideProjectModal()">Cancel</button>
+          <button type="submit" class="btn btn-save">Save project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- save to project modal end -->
+
+
+  <!-- modal script -->
   <script>
-    let cards = [...document.querySelectorAll(".faq-item")];
+    let modal = document.getElementById("project-modal");
+    const showProjectModal = () => {
+      modal.style.display = "flex";
+    }
+    const hideProjectModal = () => {
+      modal.style.display = "none";
+    }
+  </script>
 
-    // cards.forEach(card => {
-    //   card.addEventListener("click", function () {
-    //     cards.forEach(c => c.parentNode.classList.remove("show"));
-    //     this.parentNode.classList.add("show");
-    //   })
-    // });
-
-    cards.forEach(card => {
-      card.addEventListener("click", function () {
-        card.parentNode.classList.toggle("show");
-      })
-    });
-
+  <!-- filter script -->
+  <script>
+    let filter = document.getElementById("filter-box");
+    const showFilter = () => {
+      filter.classList.toggle('active');
+    } 
+    const hideFilter = () => {
+      filter.classList.remove('active');
+    } 
   </script>
 
 

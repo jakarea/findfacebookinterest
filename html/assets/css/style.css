@@ -321,7 +321,7 @@ body {
   font-style: normal;
   line-height: 16px;
   letter-spacing: 0.16px;
-  padding: 0.675rem 1rem;
+  padding: 0.5rem;
   margin-right: 0.6rem;
   margin-top: 0.8rem;
   transition: all linear 0.2s;
@@ -442,6 +442,34 @@ body {
 }
 .hero-section .find-interest-search-box .interest-list-table table tr td a {
   display: inline-block;
+}
+.hero-section .find-interest-search-box .interest-list-table table tr td .checbox-cont .checkmark {
+  width: 18px !important;
+  height: 18px !important;
+  border-width: 1px !important;
+}
+.hero-section .find-interest-search-box .interest-list-table table tr td .action-bttns a {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 2px;
+  border: 1px solid var(--nutral-300, #B4BDC7);
+  color: var(--nutral-400, #939FAD);
+  font-family: "Satoshi-Medium";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.2rem;
+}
+.hero-section .find-interest-search-box .interest-list-table table tr td .action-bttns a svg {
+  margin-right: 0.4rem;
+}
+.hero-section .find-interest-search-box .interest-list-table table tr td .action-bttns a:last-child {
+  margin-left: 0.7rem;
+}
+.hero-section .find-interest-search-box .interest-list-table table tr td .action-bttns a:hover {
+  background-color: #FFF6F2;
 }
 .hero-section .find-interest-search-box .interest-list-table table tr:nth-child(even) td {
   background: #F4F8FE;
@@ -974,4 +1002,361 @@ body {
   line-height: 28px;
   letter-spacing: 0.18px;
   margin-bottom: 1.5rem;
+}
+
+.modal-wrapper {
+  background-color: rgba(0, 0, 0, 0.573);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.save-to-project-modal-wrap {
+  border-radius: 8px;
+  border: 1px solid #F4F8FE;
+  background: #FFF;
+  box-shadow: 0px 4px 12px 0px rgba(25, 41, 60, 0.2);
+  width: 400px;
+}
+.save-to-project-modal-wrap .modal-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+.save-to-project-modal-wrap .modal-header h5 {
+  color: var(--primary-600, #1D81F5);
+  font-family: "Satoshi-Bold";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+}
+.save-to-project-modal-wrap .modal-input-text {
+  padding: 1rem 1.5rem;
+}
+.save-to-project-modal-wrap .modal-input-text .form-group {
+  margin-bottom: 1rem;
+}
+.save-to-project-modal-wrap .modal-input-text .form-group label {
+  color: var(--nutral-600, #545D68);
+  text-align: center;
+  font-family: "Satoshi-Medium";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.7rem;
+}
+.save-to-project-modal-wrap .modal-input-text .form-group select,
+.save-to-project-modal-wrap .modal-input-text .form-group input {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--nutral-200, #D4DAE0);
+  height: 2.4rem;
+  padding-left: 1rem;
+  color: var(--nutral-400, #939FAD);
+  text-align: center;
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  text-align: left;
+  background-color: transparent;
+}
+.save-to-project-modal-wrap .modal-ftr {
+  background: #F2F6FC;
+  padding: 1rem;
+  text-align: right;
+}
+.save-to-project-modal-wrap .modal-ftr .btn-cancle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #56A0F8;
+  line-height: normal;
+  background: transparent;
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  transition: all linear 0.2s;
+  text-align: center;
+  font-family: "Satoshi-Regular";
+  font-style: normal;
+  line-height: 20px;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  border: 1px solid var(--primary-500, #56A0F8);
+}
+.save-to-project-modal-wrap .modal-ftr .btn-cancle:hover {
+  background-color: #56A0F8;
+  color: #FFF;
+}
+.save-to-project-modal-wrap .modal-ftr .btn-save {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: normal;
+  background: #0073F9;
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  transition: all linear 0.2s;
+  text-align: center;
+  font-family: "Satoshi-Regular";
+  font-style: normal;
+  line-height: 20px;
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  margin-left: 1rem;
+}
+.save-to-project-modal-wrap .modal-ftr .btn-save:hover {
+  background-color: #444250;
+  color: #FFF;
+}
+
+.keyword-filter-wrap {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 650px;
+  z-index: 999;
+  height: 100vh;
+  border-left: 1px solid #1D81F5;
+  display: none;
+}
+.keyword-filter-wrap .filter-box-wrap {
+  background-color: #fff;
+  padding: 1rem;
+  width: 100%;
+  height: 100vh;
+}
+.keyword-filter-wrap .filter-box-wrap .close-filter {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+.keyword-filter-wrap .filter-box-wrap .close-filter a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.4rem;
+  background-color: #FAFCFF;
+  color: #0073F9;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item {
+  margin: 0 0.5rem;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .form-group label {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Medium";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 0.8rem;
+  display: block;
+  width: 100%;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .form-group input {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--nutral-200, #D4DAE0);
+  height: 2.4rem;
+  padding-left: 1rem;
+  color: var(--nutral-400, #939FAD);
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  text-align: left;
+  background-color: transparent;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word {
+  margin-top: 1.5rem;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word h6 {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Medium";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 1rem;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table {
+  width: 100%;
+  padding-left: 1rem;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table tr td {
+  color: var(--nutral-500, #6F7984);
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  padding-bottom: 1rem;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table tr td .checbox-cont .checkmark {
+  width: 17px;
+  height: 17px;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table tr td .checbox-cont .checkmark:after {
+  left: 4px;
+  top: -1px;
+  background-color: transparent;
+  border-color: #6F7984;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table tr td .checbox-cont input:checked ~ .checkmark {
+  background-color: transparent;
+  border-color: #6F7984;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table tr td:last-child {
+  text-align: right;
+}
+.keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table tr td a {
+  color: var(--primary-500, #56A0F8);
+  font-family: "Satoshi-Medium";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.keyword-filter-wrap.active {
+  display: block !important;
+}
+
+.register-page-wrap {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 450px;
+  z-index: 999;
+  height: 100vh;
+  border-left: 1px solid #545D68;
+  box-shadow: 6px 9px 12px #545D68;
+  display: none;
+}
+.register-page-wrap .register-form {
+  background-color: #F5FAFF;
+  padding: 2rem;
+  width: 100%;
+  height: 100vh;
+}
+.register-page-wrap .register-form .form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.register-page-wrap .register-form .form-header h5 {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Bold";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+}
+.register-page-wrap .register-form .form-header a {
+  display: block;
+  margin-top: 0.5rem;
+}
+.register-page-wrap .register-form .form-group {
+  margin-bottom: 1rem;
+}
+.register-page-wrap .register-form .form-group label {
+  color: var(--nutral-600, #545D68);
+  text-align: center;
+  font-family: "Satoshi-Medium";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.7rem;
+}
+.register-page-wrap .register-form .form-group input {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--nutral-200, #D4DAE0);
+  height: 2.7rem;
+  padding-left: 1rem;
+  color: var(--nutral-400, #939FAD);
+  text-align: center;
+  font-family: "Satoshi-Regular";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  text-align: left;
+  background-color: #fff;
+}
+.register-page-wrap .register-form .form-submit .btn-submit {
+  display: block;
+  text-align: center;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: normal;
+  background: #1D81F5;
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  transition: all linear 0.2s;
+}
+.register-page-wrap .register-form .form-submit .btn-submit:hover {
+  background-color: #6F7984;
+}
+.register-page-wrap .register-form .forgot-password {
+  margin-top: 1rem;
+}
+.register-page-wrap .register-form .forgot-password a {
+  color: var(--nutral-600, #1D81F5);
+  font-family: "Satoshi-Medium";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  display: block;
+}
+.register-page-wrap .register-form .allready-joined {
+  margin-top: 4rem;
+  text-align: center;
+}
+.register-page-wrap .register-form .allready-joined p {
+  color: var(--nutral-600, #545D68);
+  font-family: "Satoshi-Medium";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+.register-page-wrap .register-form .allready-joined p a {
+  color: var(--nutral-600, #1D81F5);
+}
+
+.register-page-wrap.active {
+  display: block !important;
 }

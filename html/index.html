@@ -35,9 +35,9 @@
         <!-- header menu  -->
         <div class="header-menu">
           <ul>
-            <li><a href="#">My Project</a></li>
-            <li><a href="#">Log in</a></li>
-            <li><a href="#" class="signup-bttn">Sign up</a></li>
+            <li><a href="project.html">My Project</a></li>
+            <li><a href="#" onclick="showLoginFilter()">Log in</a></li>
+            <li><a href="#" class="signup-bttn" onclick="showRegisFilter()">Sign up</a></li>
           </ul>
         </div>
         <!-- header menu  -->
@@ -582,6 +582,77 @@
   </footer>
   <!-- footer section end -->
 
+  <!-- register modal start -->
+  <div class="register-page-wrap" id="register-box">
+    <div class="register-form">
+      <div class="form-header">
+        <h5>Register</h5>
+        <a href="#" onclick="hideRegisFilter()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 10.586L16.95 5.63599L18.364 7.04999L13.414 12L18.364 16.95L16.95 18.364L12 13.414L7.04999 18.364L5.63599 16.95L10.586 12L5.63599 7.04999L7.04999 5.63599L12 10.586Z" fill="#050400"/>
+          </svg>
+        </a>
+      </div>
+      <form action="">
+        <div class="form-group">
+          <label for="">Name</label>
+          <input type="text" placeholder="Enter Your Name">
+        </div>
+        <div class="form-group">
+          <label for="">Email</label>
+          <input type="email" placeholder="Enter Your Email">
+        </div>
+        <div class="form-group">
+          <label for="">Phone</label>
+          <input type="text" placeholder="Enter Your Phone Number">
+        </div>
+        <div class="form-group">
+          <label for="">Password</label>
+          <input type="password" placeholder="********">
+        </div>
+        <div class="form-group">
+          <label for="">Confirm Password</label>
+          <input type="password" placeholder="********">
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn btn-submit">Register</button>
+        </div> 
+      </form>
+    </div>
+  </div>
+  <!-- register modal end -->
+
+  <!-- login modal start -->
+  <div class="register-page-wrap" id="login-box">
+    <div class="register-form">
+      <div class="form-header">
+        <h5>Login</h5>
+        <a href="#" onclick="hideLoginFilter()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 10.586L16.95 5.63599L18.364 7.04999L13.414 12L18.364 16.95L16.95 18.364L12 13.414L7.04999 18.364L5.63599 16.95L10.586 12L5.63599 7.04999L7.04999 5.63599L12 10.586Z" fill="#050400"/>
+          </svg>
+        </a>
+      </div>
+      <form action="" class="mt-5"> 
+        <div class="form-group">
+          <label for="">Email</label>
+          <input type="email" placeholder="Enter Your Email">
+        </div> 
+        <div class="form-group">
+          <label for="">Password</label>
+          <input type="password" placeholder="********">
+        </div> 
+        <div class="form-submit">
+          <button type="submit" class="btn btn-submit">Login</button>
+        </div>
+        <div class="forgot-password">
+          <a href="#">Forgot Password?</a>
+        </div> 
+      </form>
+    </div>
+  </div>
+  <!-- login modal end -->
+
 
   <!-- faq script -->
   <script>
@@ -600,6 +671,28 @@
       })
     });
 
+  </script>
+
+   <!-- register modal script -->
+   <script>
+    let regisForm = document.getElementById("register-box");
+    const showRegisFilter = () => {
+      regisForm.classList.add('active');
+    } 
+    const hideRegisFilter = () => {
+      regisForm.classList.remove('active');
+    } 
+  </script>
+
+   <!-- login modal script -->
+   <script>
+    let loginForm = document.getElementById("login-box");
+    const showLoginFilter = () => {
+      loginForm.classList.add('active');
+    } 
+    const hideLoginFilter = () => {
+      loginForm.classList.remove('active');
+    } 
   </script>
 
 
