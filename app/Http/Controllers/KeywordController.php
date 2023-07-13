@@ -8,13 +8,32 @@ use App\Models\Keyword;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class KeywordController extends Controller
 {
 
+    private $user = null;
     private function isAuthenticated()
     {
-        return Auth::check();
+        $token = null;
+        $headers = apache_request_headers();
+        if (isset($headers['Authorization'])) {
+            if (strpos($headers['Authorization'], 'Bearer') !== false) {
+                $token = str_replace('Bearer ', '', $headers['Authorization']);
+            }
+        }
+        // Fetch the associated token Model
+        $find_token = PersonalAccessToken::findToken($token);
+
+        if (!$find_token) {
+            $this->user = null;
+            return false;
+        }
+        // Get the assigned user
+        $user = $find_token->tokenable;
+        $this->user = $user;
+        return true;
     }
 
     private $apiBase = 'https://graph.facebook.com/v16.0';
@@ -39,14 +58,12 @@ class KeywordController extends Controller
      */
     public function store(StoreKeywordRequest $request)
     {
-        // $user = Auth::guard('web')->user();
-        // dd($user);
-        $data = $request->all();
 
-        dd($this->isAuthenticated());
+        $data = $request->all();
         if ($this->isAuthenticated()) {
             $results = $this->authUser($data);
         } else {
+
             $results = $this->notAuthUser($data);
         }
 
@@ -63,15 +80,16 @@ class KeywordController extends Controller
     private function authUser($data)
     {
 
-        $keyQuery = Keyword::where('name', $data['name'])->where('lang', $data['lang']);
-        $key = $keyQuery->get();
-        if ($key->count()) {
-            $keyQuery->update(['hit', $key['hit'] + 1]);
+        $key = Keyword::where('name', $data['name'])->where('lang', $data['lang'])->first();
+
+        if ($key) {
+            $key->first()->update(['hit', $key['hit'] + 1]);
         } else {
             Keyword::create([
                 'name' => $data['name'],
                 'lang' => $data['lang'],
-                'user_id' => Auth::id(),
+                'user_id' => $this->user['id'],
+                'hit' => 1
             ]);
         }
         return ['status' => true];
@@ -137,7 +155,7 @@ class KeywordController extends Controller
         $find_query = Keyword::where('name', $data['name']);
         $find = $find_query->first();
 
-        if ($find && $find->count()) {
+        if ($find) {
             // dd($find);
             $find_query->update(['hit' => $find['hit'] + 1]);
         } else {
