@@ -26,6 +26,7 @@ class KeywordController extends Controller
     public function index()
     {
         $data = Keyword::all();
+        // get only 10 data 
         return response()->json($data);
     }
 
@@ -38,8 +39,11 @@ class KeywordController extends Controller
      */
     public function store(StoreKeywordRequest $request)
     {
+        // $user = Auth::guard('web')->user();
+        // dd($user);
         $data = $request->all();
 
+        dd($this->isAuthenticated());
         if ($this->isAuthenticated()) {
             $results = $this->authUser($data);
         } else {
@@ -164,7 +168,7 @@ class KeywordController extends Controller
         $client = new Client();
 
         $type = 'adinterest';
-        $limit = '10000';
+        $limit = '1000';
         $key = $data['name'];
         if (array_key_exists('type', $data))
             $type = $data['type'];
