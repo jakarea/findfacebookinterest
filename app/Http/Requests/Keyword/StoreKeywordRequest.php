@@ -29,8 +29,10 @@ class StoreKeywordRequest extends FormRequest
         return [
             'name' => 'required|string',
             'lang' => 'required|string',
-            'user_id' => 'string',
-            'cookie' => 'string'
+            'user_id' => 'nullable|numeric',
+            'cookie' => 'nullable|string',
+            'type' => 'nullable|string',
+            'limit' => 'nullable|numeric'
 
         ];
     }

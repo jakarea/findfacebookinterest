@@ -39,7 +39,6 @@ Route::put('account/recover/update', [AccountRecoveryController::class, 'update'
 
 Route::get('key', [KeywordController::class, 'index'])->middleware('guest');
 Route::post('key', [KeywordController::class, 'store'])->middleware('guest');
-Route::post('key/search', [KeywordController::class, 'search'])->middleware('guest');
 
 
 Route::apiResource('roles', RoleController::class)->except(['create', 'edit'])->middleware(['auth:sanctum', 'ability:admin,super-admin,user']);

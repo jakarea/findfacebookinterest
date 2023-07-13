@@ -12,13 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('keywords', function (Blueprint $table) {
+        Schema::create('daily_searches', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('lang');
-            $table->integer('hit')->default(1);
-            $table->string('cookie')->nullable();
-            $table->foreignId('user_id')->nullable();
+            $table->string('cookie');
+            $table->dateTime('date');
+            $table->integer('count');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('keywords');
+        Schema::dropIfExists('daily_searches');
     }
 };
