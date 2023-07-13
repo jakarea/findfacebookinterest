@@ -752,7 +752,7 @@ body {
   background-color: transparent;
   padding: 1.2rem 2rem;
 }
-.faq-section .faq-box-wrap .faq-box-item button h5 {
+.faq-section .faq-box-wrap .faq-box-item button span {
   color: var(--nutral-700, #444250);
   font-family: "Satoshi-Medium";
   font-size: 22px;
@@ -760,6 +760,7 @@ body {
   font-weight: 500;
   line-height: 28px;
   opacity: 0.67;
+  display: inline-block;
 }
 .faq-section .faq-box-wrap .faq-box-item .faq-answer {
   padding: 1.2rem 2rem;
@@ -1222,11 +1223,11 @@ body {
   left: 4px;
   top: -1px;
   background-color: transparent;
-  border-color: #6F7984;
+  border-color: #1D81F5;
 }
 .keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table tr td .checbox-cont input:checked ~ .checkmark {
   background-color: transparent;
-  border-color: #6F7984;
+  border-color: #1D81F5;
 }
 .keyword-filter-wrap .filter-box-wrap .d-grid .filter-item .exclude-word table tr td:last-child {
   text-align: right;
@@ -1359,4 +1360,8 @@ body {
 
 .register-page-wrap.active {
   display: block !important;
+}
+
+.hero-section .find-interest-search-box .interest-list-header .header-filter .btn.active {
+  background-color: #FEE4D5 !important;
 }

@@ -51,7 +51,7 @@
     <div class="container">
       <!-- find interest search box -->
       <div class="find-interest-search-box mt-0">
-        <form action="">
+        <form >
           <div class="d-flex">
             <div class="form-group">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -143,7 +143,7 @@
           <h4>32 Interest Selected of 423</h4>
           <!-- filter area start -->
           <div class="header-filter">
-            <button type="button" class="btn" onclick="showFilter()">
+            <button type="button" class="btn filter-bttn" onclick="showFilter()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M12.0001 3C14.7548 3 17.4552 3.23205 20.0831 3.67767C20.6159 3.76803 21 4.23355 21 4.77402V5.81802C21 6.41476 20.7629 6.98705 20.341 7.40901L14.909 12.841C14.4871 13.2629 14.25 13.8352 14.25 14.432V17.3594C14.25 18.2117 13.7685 18.9908 13.0062 19.3719L9.75 21V14.432C9.75 13.8352 9.51295 13.2629 9.09099 12.841L3.65901 7.40901C3.23705 6.98705 3 6.41476 3 5.81802V4.77404C3 4.23357 3.38408 3.76805 3.91694 3.67769C6.54479 3.23206 9.24533 3 12.0001 3Z"
@@ -167,7 +167,7 @@
               </svg>
               Export to CSV
             </button>
-            <button type="button" class="btn" onclick="showProjectModal()">
+            <button type="button" class="btn modal-bttn" onclick="showProjectModal()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M12 10.5V16.5M15 13.5H9M13.0607 6.31066L10.9393 4.18934C10.658 3.90804 10.2765 3.75 9.87868 3.75H4.5C3.25736 3.75 2.25 4.75736 2.25 6V18C2.25 19.2426 3.25736 20.25 4.5 20.25H19.5C20.7426 20.25 21.75 19.2426 21.75 18V9C21.75 7.75736 20.7426 6.75 19.5 6.75H14.1213C13.7235 6.75 13.342 6.59197 13.0607 6.31066Z"
@@ -814,12 +814,16 @@
   <div class="keyword-filter-wrap" id="filter-box">
     <div class="filter-box-wrap">
       <div class="close-filter">
-        <a href="#" onclick="hideFilter()">X</a>
+        <a href="#" onclick="hideFilter()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 10.586L16.95 5.63599L18.364 7.04999L13.414 12L18.364 16.95L16.95 18.364L12 13.414L7.04999 18.364L5.63599 16.95L10.586 12L5.63599 7.04999L7.04999 5.63599L12 10.586Z" fill="#050400"/>
+            </svg>
+        </a>
       </div>
       <div class="d-grid">
         <div class="filter-item">
           <div class="form-group">
-            <label for="">Min Audience Size</label>
+            <label >Min Audience Size</label>
             <input type="text" placeholder="100">
           </div>
           <div class="exclude-word">
@@ -923,7 +927,7 @@
         </div>
         <div class="filter-item">
           <div class="form-group">
-            <label for="">Min Audience Size</label>
+            <label >Min Audience Size</label>
             <input type="text" placeholder="100">
           </div>
           <div class="exclude-word">
@@ -1036,16 +1040,16 @@
       <div class="modal-header">
         <h5>Save to project</h5>
       </div>
-      <form action="">
+      <form >
         <div class="modal-input-text">
           <div class="form-group">
-            <label for="">Save to an existing project</label>
-            <select name="" id="">
+            <label >Save to an existing project</label>
+            <select >
               <option value="">Select your project</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="">Save to new project</label>
+            <label >Save to new project</label>
             <input type="text" placeholder="Add Name to your project">
           </div>
         </div>
@@ -1062,22 +1066,28 @@
   <!-- modal script -->
   <script>
     let modal = document.getElementById("project-modal");
+    let modalBttn = document.querySelector(".modal-bttn");
     const showProjectModal = () => {
       modal.style.display = "flex";
+      modalBttn.classList.add('active'); 
     }
     const hideProjectModal = () => {
       modal.style.display = "none";
+      modalBttn.classList.remove('active'); 
     }
   </script>
 
   <!-- filter script -->
   <script>
     let filter = document.getElementById("filter-box");
+    let filterBttn = document.querySelector(".filter-bttn");
     const showFilter = () => {
       filter.classList.toggle('active');
+      filterBttn.classList.toggle('active'); 
     } 
     const hideFilter = () => {
       filter.classList.remove('active');
+      filterBttn.classList.remove('active'); 
     } 
   </script>
 

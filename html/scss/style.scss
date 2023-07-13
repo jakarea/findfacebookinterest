@@ -294,6 +294,7 @@
                         background-color: #FEE4D5;
                     }
                 }
+               
             }
         }
 
@@ -701,7 +702,7 @@
                 background-color: transparent;
                 padding: 1.2rem 2rem;
 
-                h5 {
+                span {
                     color: var(--nutral-700, #444250);
                     font-family: 'Satoshi-Medium';
                     font-size: 22px;
@@ -709,6 +710,7 @@
                     font-weight: 500;
                     line-height: 28px;
                     opacity: .67;
+                    display: inline-block;
                 }
             }
 
@@ -1227,13 +1229,13 @@
                                             left: 4px;
                                             top: -1px;
                                             background-color: transparent;
-                                            border-color: #6F7984;
+                                            border-color: #1D81F5;
                                         }
                                     }
 
                                     input:checked~.checkmark {
                                         background-color: transparent;
-                                        border-color: #6F7984;
+                                        border-color: #1D81F5;
                                     }
                                 }
 
@@ -1373,5 +1375,9 @@
 }
 
 .register-page-wrap.active{
-    display: block!important;
+    display: block!important; 
+}
+
+.hero-section .find-interest-search-box .interest-list-header .header-filter .btn.active{
+    background-color: #FEE4D5!important;
 }
