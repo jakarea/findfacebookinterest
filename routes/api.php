@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountRecoveryController;
 use App\Http\Controllers\HydraController;
 use App\Http\Controllers\KeywordController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
@@ -37,11 +38,10 @@ Route::post('account/recover/verify', [AccountRecoveryController::class, 'verify
 Route::post('account/recover/request', [AccountRecoveryController::class, 'store'])->middleware('guest');
 Route::put('account/recover/update', [AccountRecoveryController::class, 'update'])->middleware('guest');
 
+Route::get('key', [KeywordController::class, 'index'])->middleware('guest');
+Route::post('key', [KeywordController::class, 'store'])->middleware('guest');
 
-Route::post('keyword/find', [KeywordController::class, 'store'])->middleware('guest');
-
-// keyword
-
+Route::apiResource('project', ProjectController::class)->middleware(['auth:sanctum']);
 
 
 Route::apiResource('roles', RoleController::class)->except(['create', 'edit'])->middleware(['auth:sanctum', 'ability:admin,super-admin,user']);
