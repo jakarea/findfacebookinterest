@@ -28,12 +28,9 @@ class StoreKeywordRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'lang' => 'required|string',
-            'user_id' => 'nullable|numeric',
-            'cookie' => 'nullable|string',
+            'user_id' => 'nullable|numeric|required_without:cookie',
+            'cookie' => 'nullable|string|required_without:user_id',
             'type' => 'nullable|string',
-            'limit' => 'nullable|numeric'
-
         ];
     }
     public function failedValidation(Validator $validator)
