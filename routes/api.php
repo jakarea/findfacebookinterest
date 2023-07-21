@@ -38,8 +38,8 @@ Route::post('account/recover/verify', [AccountRecoveryController::class, 'verify
 Route::post('account/recover/request', [AccountRecoveryController::class, 'store'])->middleware('guest');
 Route::put('account/recover/update', [AccountRecoveryController::class, 'update'])->middleware('guest');
 
-Route::get('key', [KeywordController::class, 'index'])->middleware('guest');
-Route::post('key', [KeywordController::class, 'store'])->middleware('guest');
+Route::get('key', [KeywordController::class, 'index']);
+Route::post('key', [KeywordController::class, 'store']);
 
 Route::apiResource('project', ProjectController::class)->middleware(['auth:sanctum']);
 

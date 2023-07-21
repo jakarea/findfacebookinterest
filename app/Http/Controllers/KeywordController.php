@@ -7,36 +7,40 @@ use App\Models\DailySearch;
 use App\Models\Keyword;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class KeywordController extends Controller
 {
 
+    private $apiBase = 'https://graph.facebook.com/v16.0';
     private $user = null;
+
+    /**
+     * 
+     * 
+     * @return boolean;
+     */
     private function isAuthenticated()
     {
-        $token = null;
         $headers = apache_request_headers();
-        if (isset($headers['Authorization'])) {
-            if (strpos($headers['Authorization'], 'Bearer') !== false) {
-                $token = str_replace('Bearer ', '', $headers['Authorization']);
-            }
+        if (!isset($headers['Authorization']) || strpos($headers['Authorization'], 'Bearer') === false) {
+            return false;
         }
+
+        $token = str_replace('Bearer ', '', $headers['Authorization']);
+
         // Fetch the associated token Model
         $find_token = PersonalAccessToken::findToken($token);
 
         if (!$find_token) {
-            $this->user = null;
             return false;
         }
         // Get the assigned user
-        $user = $find_token->tokenable;
-        $this->user = $user;
+        $this->user = $find_token->tokenable;
         return true;
     }
 
-    private $apiBase = 'https://graph.facebook.com/v16.0';
+
     /**
      * Display a listing of the resource.
      *
@@ -44,13 +48,11 @@ class KeywordController extends Controller
      */
     public function index()
     {
-        $data_query = Keyword::orderBy('id', 'desc')->take(10);
+        $data_query = Keyword::orderByDesc('id')->take(10);
         if ($this->isAuthenticated()) {
-            $data = $data_query->where('user_id', $this->user['id'])->get(['name', 'id']);
-        } else {
-            $data = $data_query->get(['name', 'id']);
+            $data_query->where('user_id', $this->user['id']);
         }
-
+        $data = $data_query->get(['name', 'id']);
         return response()->json($data);
     }
 
@@ -64,143 +66,105 @@ class KeywordController extends Controller
     public function store(StoreKeywordRequest $request)
     {
 
-        $data = $request->all();
-        if ($this->isAuthenticated()) {
-            $results = $this->authUser($data);
-        } else {
+        $data = $request->validated();
 
-            $results = $this->notAuthUser($data);
+        $response = $this->isAuthenticated() ? $this->authUser($data) : $this->notAuthUser($data);
+        if ($response) {
+            return $response;
         }
+        $this->updateOrCreateKeyword($data);
+        return $this->search($data);
 
-        if (!$results['status']) {
-            return response()->json($results['result']);
-        }
-        $this->createKeyword($data);
 
-        $data = $this->search($data);
-        return response()->json(json_decode($data));
     }
-
 
     private function authUser($data)
     {
 
-        $key = Keyword::where('name', $data['name'])->where('lang', $data['lang'])->first();
-
-        if ($key) {
-            $key->first()->update(['hit', $key['hit'] + 1]);
-        } else {
-            Keyword::create([
-                'name' => $data['name'],
-                'lang' => $data['lang'],
+        if (isset($data['cookie']) && !empty($data['cookie'])) {
+            DailySearch::where('cookie', $data['cookie'])->delete();
+            Keyword::where('cookie', $data['cookie'])->update([
                 'user_id' => $this->user['id'],
-                'hit' => 1
+                'cookie' => null,
             ]);
         }
-        return ['status' => true];
+
 
     }
 
     private function notAuthUser($data)
     {
-        if (!array_key_exists('cookie', $data) || !$data['cookie']) {
-            return [
-                'status' => false,
-                'result' => [
-                    'success' => false,
-                    'message' => 'Validation errors',
-                    'data' => ['Cookie is required']
-                ]
-            ];
+
+
+        if (!isset($data['cookie']) || empty($data['cookie'])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation errors',
+                'data' => ['Cookie is required']
+            ]);
 
         }
-
 
         $cookie = $data['cookie'];
-
         $search = DailySearch::where('cookie', $cookie)->first();
-        if ($search && $search->count()) {
-            $saveDate = Carbon::parse($search['date']);
-            $now = Carbon::now();
-            if ($saveDate->isSameDay($now)) {
-                if ($search['count'] > 7) {
-                    return [
-                        'status' => false,
-                        'result' => [
-                            'success' => false,
-                            'message' => 'Robot',
-                            'data' => []
-                        ]
-                    ];
 
-                }
-                DailySearch::where('cookie', $cookie)->update(['count' => $search['count'] + 1]);
-                return ['status' => true];
-
-            }
-            DailySearch::where('cookie', $cookie)->update(['count' => 1, 'date' => Carbon::now()]);
-            return ['status' => true];
-
+        if (!$search) {
+            DailySearch::create([
+                'cookie' => $cookie,
+                'count' => 1,
+                'date' => Carbon::now(),
+            ]);
+            return;
         }
-        $values = [
-            'cookie' => $cookie,
-            'count' => 1,
-            'date' => Carbon::now(),
-        ];
-        DailySearch::create($values);
-        return ['status' => true];
 
+        if (!(Carbon::parse($search['date'])->isSameDay(Carbon::now()))) {
+            $search->update(['count' => 1, 'date' => Carbon::now()]);
+            return;
+        }
 
+        if ($search['count'] >= 7) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Robot',
+                'data' => []
+            ], 400);
+        }
+        $search->increment('count');
     }
 
 
-    private function createKeyword($data)
+    private function updateOrCreateKeyword($data)
     {
 
-        $find_query = Keyword::where('name', $data['name']);
-        $find = $find_query->first();
-
+        $find = Keyword::where('name', $data['name'])->first();
         if ($find) {
-            // dd($find);
-            $find_query->update(['hit' => $find['hit'] + 1]);
-        } else {
-
-
-            $keyword_values = [
-                'name' => $data['name'],
-                'lang' => $data['lang'],
-                'hit' => 1
-            ];
-
-            if ($this->isAuthenticated()) {
-                $keyword_values['user_id'] = Auth::id();
-            } else {
-                $keyword_values['cookie'] = $data['cookie'];
-            }
-
-            Keyword::create($keyword_values);
+            $find->increment('hit');
+            return;
         }
+
+        Keyword::create([
+            'name' => $data['name'],
+            'lang' => $data['lang'],
+            'hit' => 1,
+            'user_id' => $this->user ? $this->user['id'] : null,
+            'cookie' => !$this->user && isset($data['cookie']) ? $data['cookie'] : null
+        ]);
+
     }
-
-
 
 
     public function search($data)
     {
 
         $client = new Client();
-
-        $type = 'adinterest';
-        $limit = '1000';
+        $type = isset($data['type']) ? $data['type'] : 'adinterest';
+        $limit = isset($data['limit']) ? $data['limit'] : '10';
         $key = $data['name'];
-        if (array_key_exists('type', $data))
-            $type = $data['type'];
-        if (array_key_exists('limit', $data))
-            $limit = $data['limit'];
 
         $url = sprintf('%s/search?type=%s&q=%s&limit=%s&locale=&access_token=%s', $this->apiBase, $type, $key, $limit, env('FACEBOOK_ACCESS_TOKEN'));
+
         $response = $client->get($url);
-        return $response->getBody()->getContents();
+        return response()->json(json_decode($response->getBody()->getContents()));
 
     }
 }

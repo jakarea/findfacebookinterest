@@ -29,7 +29,6 @@ class StoreKeywordRequest extends FormRequest
         return [
             'name' => 'required|string',
             'lang' => 'required|string',
-            'user_id' => 'nullable|numeric',
             'cookie' => 'nullable|string',
             'type' => 'nullable|string',
             'limit' => 'nullable|numeric'
@@ -43,7 +42,6 @@ class StoreKeywordRequest extends FormRequest
             'success' => false,
             'message' => 'Validation errors',
             'data' => $validator->errors()
-
         ]));
 
     }
