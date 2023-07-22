@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -10,20 +11,20 @@ const Header = () => {
           <div className="d-flex">
             {/* <!-- header logo --> */}
             <div className="header-brand">
-              <a href="index.html">
+              <Link href="/">
                 <img
                   src="./assets/images/logo.svg"
                   alt="Logo"
                   className="img-fluid"
                 />
-              </a>
+              </Link>
             </div>
             {/* <!-- header logo --> */}
             {/* <!-- header menu  --> */}
             <div className="header-menu">
               <ul>
                 <li>
-                  <a href="project.html">My Project</a>
+                  <Link href="/project">My Project</Link>
                 </li>
                 <Login />
                 <Register />
