@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginFormRequest;
 use App\Mail\UserConfirmMail;
 use App\Mail\UserVerifiedMail;
 use App\Models\Role;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Exceptions\MissingAbilityException;
 use Mail;
 
@@ -76,15 +78,18 @@ class UserController extends Controller
     /**
      * Authenticate an user and dispatch token.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Auth\LoginFormRequest;  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login(LoginFormRequest $request)
     {
-        $creds = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $creds = $request->validated();
+        if (isset($creds['isOAuth']) && $creds['isOAuth']) {
+            $authType = $creds['OAuthType'];
+            if ($authType && $authType === 'google') {
+                return $this->googleOAuthLogin($creds['access_token']);
+            }
+        }
 
         $user = User::where('email', $creds['email'])->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -208,6 +213,66 @@ class UserController extends Controller
             return response(['error' => 0, 'message' => 'Email verified successfully', 'user' => $user], 200);
         } else {
             return response(['error' => 1, 'message' => 'Bad request'], 400);
+        }
+    }
+
+    /**
+     * OAuth login
+     *
+     * @param  $data
+     * @return \Illuminate\Http\Response
+     */
+    private function googleOAuthLogin($access_token)
+    {
+
+        $tokenData = $this->getDataFromGoogleAccessToken($access_token);
+
+        if (!$tokenData) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Authentication errors',
+                'data' => ['Invalid credentials']
+            ]);
+        }
+        $user = User::where('email', $tokenData['email'])->where('auth_type', 'google')->first();
+
+        if (!$user) {
+            $user = User::create([
+                'email' => $tokenData['email'],
+                'name' => $tokenData['name'],
+                "auth_type" => 'google',
+                'password' => null
+            ]);
+
+            $defaultRoleSlug = config('hydra.default_user_role_slug', 'user');
+            $user->roles()->attach(Role::where('slug', $defaultRoleSlug)->first());
+        }
+
+        if (config('hydra.delete_previous_access_tokens_on_login', false)) {
+            $user->tokens()->delete();
+        }
+
+        $roles = $user->roles->pluck('slug')->all();
+
+        $plainTextToken = $user->createToken('hydra-api-token', $roles)->plainTextToken;
+
+        return response()->json(['error' => 0, 'id' => $user->id, 'token' => $plainTextToken], 200);
+    }
+
+
+
+    private function getDataFromGoogleAccessToken($token)
+    {
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' . $token);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            return $data;
+        } else {
+            return false;
         }
     }
 }

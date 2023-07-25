@@ -19,7 +19,8 @@ return new class extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('confirm_hash')->nullable();
             $table->string('reset_hash')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('auth_type')->default('web');
             $table->rememberToken();
             $table->timestamps();
         });

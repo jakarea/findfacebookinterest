@@ -1,10 +1,14 @@
 "use client";
+import { baseUrl } from "@/utils";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 import { useState } from "react";
-
 import Drawer from "react-modern-drawer";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const clickHandler = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setIsOpen((prev) => !prev);
@@ -12,6 +16,28 @@ const Login = () => {
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
+
+  const responseMessage = (response: TokenResponse) => {
+    const accessToken = response.access_token;
+    const data = {
+      access_token: accessToken,
+      isOAuth: true,
+      OAuthType: "google",
+    };
+
+    axios
+      .post(`${baseUrl}/login`, data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const login = useGoogleLogin({
+    onSuccess: responseMessage,
+  });
 
   return (
     <>
@@ -61,6 +87,16 @@ const Login = () => {
                 Login
               </button>
             </div>
+            <div className="form-submit" style={{ marginTop: 20 }}>
+              <button
+                type="submit"
+                className="btn btn-submit"
+                onClick={() => login()}
+              >
+                Login with Google
+              </button>
+            </div>
+
             <div className="forgot-password">
               <a href="#">Forgot Password?</a>
             </div>
@@ -72,3 +108,7 @@ const Login = () => {
 };
 
 export default Login;
+
+interface TokenResponse {
+  access_token: string;
+}

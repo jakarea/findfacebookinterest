@@ -3,3 +3,12 @@
 @import url("../assets/css/layout");
 @import url("../assets/css/style");
 @import url("../assets/css/responsive");
+
+.googleLogin iframe {
+  width: 100% !important;
+}
+
+.googleLogin body,
+.haAclf {
+  width: 100% !important;
+}
