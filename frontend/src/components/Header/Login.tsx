@@ -1,20 +1,30 @@
 "use client";
 import { baseUrl } from "@/utils";
+import { storeToken } from "@/utils/token";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Drawer from "react-modern-drawer";
 
-const Login = () => {
+interface InitialFormState {
+  email: string;
+  password: string;
+}
+
+interface LoginProps {
+  saveUserToState: (user: any) => void;
+  isAuthenticated: boolean;
+}
+
+const Login: React.FC<LoginProps> = (props) => {
+  const { saveUserToState, isAuthenticated } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const clickHandler = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setIsOpen((prev) => !prev);
-  };
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
   };
 
   const responseMessage = (response: TokenResponse) => {
@@ -25,27 +35,55 @@ const Login = () => {
       OAuthType: "google",
     };
 
-    axios
-      .post(`${baseUrl}/login`, data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    login(data);
   };
 
-  const login = useGoogleLogin({
+  const googleLogin = useGoogleLogin({
     onSuccess: responseMessage,
   });
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setError,
+  } = useForm<InitialFormState>({
+    values: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const submitHandler = (values: InitialFormState) => {
+    login(values);
+  };
+
+  const login = async (data: any) => {
+    try {
+      const res = await axios.post(`${baseUrl}/login`, data);
+      const token = res.data.token;
+      storeToken(token);
+      saveUserToState(token);
+      reset();
+      setIsOpen(false);
+      setIsLoading(false);
+    } catch (error: any) {
+      setError("email", { message: error?.response?.data?.message || "" });
+      setError("password", { message: error?.response?.data?.message || "" });
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
-      <li>
-        <a href="/" onClick={clickHandler}>
-          Log in
-        </a>
-      </li>
+      {!isAuthenticated && (
+        <li>
+          <a href="/" onClick={clickHandler}>
+            Log in
+          </a>
+        </li>
+      )}
 
       <Drawer
         open={isOpen}
@@ -59,28 +97,44 @@ const Login = () => {
           <div className="form-header">
             <h5>Login</h5>
             <a href="#" onClick={clickHandler}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M12 10.586L16.95 5.63599L18.364 7.04999L13.414 12L18.364 16.95L16.95 18.364L12 13.414L7.04999 18.364L5.63599 16.95L10.586 12L5.63599 7.04999L7.04999 5.63599L12 10.586Z"
-                  fill="#050400"
-                />
-              </svg>
+              <CloseIcon />
             </a>
           </div>
-          <form className="mt-5" onSubmit={submitHandler}>
+
+          <form className="mt-5" onSubmit={handleSubmit(submitHandler)}>
             <div className="form-group">
               <label>Email</label>
-              <input type="email" placeholder="Enter Your Email" />
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
+                placeholder="Enter Your Email"
+              />
+              {errors?.email && (
+                <small className="" style={{ color: "red" }}>
+                  {errors?.email?.message}
+                </small>
+              )}
             </div>
             <div className="form-group">
               <label>Password</label>
-              <input type="password" placeholder="********" />
+              <input
+                type="password"
+                {...register("password", {
+                  required: "Password is required!",
+                })}
+                placeholder="********"
+              />
+              {errors?.password && (
+                <small className="" style={{ color: "red" }}>
+                  {errors?.password?.message}
+                </small>
+              )}
             </div>
             <div className="form-submit">
               <button type="submit" className="btn btn-submit">
@@ -89,9 +143,9 @@ const Login = () => {
             </div>
             <div className="form-submit" style={{ marginTop: 20 }}>
               <button
-                type="submit"
+                type="button"
                 className="btn btn-submit"
-                onClick={() => login()}
+                onClick={() => googleLogin()}
               >
                 Login with Google
               </button>
@@ -104,6 +158,23 @@ const Login = () => {
         </div>
       </Drawer>
     </>
+  );
+};
+
+const CloseIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M12 10.586L16.95 5.63599L18.364 7.04999L13.414 12L18.364 16.95L16.95 18.364L12 13.414L7.04999 18.364L5.63599 16.95L10.586 12L5.63599 7.04999L7.04999 5.63599L12 10.586Z"
+        fill="#050400"
+      />
+    </svg>
   );
 };
 

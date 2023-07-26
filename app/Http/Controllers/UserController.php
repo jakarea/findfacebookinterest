@@ -93,7 +93,12 @@ class UserController extends Controller
 
         $user = User::where('email', $creds['email'])->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response(['error' => 1, 'message' => 'invalid credentials'], 401);
+            return response()->json(([
+                'success' => false,
+                'message' => 'invalid credentials',
+                'data' => null
+
+            ]), 401);
         }
 
         if (config('hydra.delete_previous_access_tokens_on_login', false)) {

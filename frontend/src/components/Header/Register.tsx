@@ -1,7 +1,11 @@
 "use client";
 import { useState } from "react";
 import Drawer from "react-modern-drawer";
-const Register = () => {
+interface RegisterProps {
+  isAuthenticated: boolean;
+}
+const Register: React.FC<RegisterProps> = (props) => {
+  const { isAuthenticated } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const clickHandler = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -12,11 +16,13 @@ const Register = () => {
   };
   return (
     <>
-      <li>
-        <a href="" className="signup-bttn" onClick={clickHandler}>
-          Sign up
-        </a>
-      </li>
+      {!isAuthenticated && (
+        <li>
+          <a href="" className="signup-bttn" onClick={clickHandler}>
+            Sign up
+          </a>
+        </li>
+      )}
       <Drawer
         open={isOpen}
         onClose={clickHandler}
