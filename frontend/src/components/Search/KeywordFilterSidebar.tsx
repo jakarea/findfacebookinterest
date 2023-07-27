@@ -3,6 +3,7 @@ import React from "react";
 import Drawer from "react-modern-drawer";
 interface Props {
   isFilterOpen: boolean;
+
   setIsFilterOpen: Function;
 }
 
