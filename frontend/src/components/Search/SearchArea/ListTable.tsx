@@ -5,16 +5,19 @@ export interface AdsProps {
   id: string | number;
   audience_size_lower_bound: number;
   audience_size_upper_bound: number;
-  description: string | number;
+  description?: string | null;
   name: string | number;
   path: string[];
   topic: string;
 }
 interface ListTableTypes {
   data: AdsProps[];
+  selectedAds: (string | number)[];
+  toggleSelect: (id: string | number) => void;
+  selectAllAdsToggle: () => void;
 }
-const ListTable: React.FC<ListTableTypes> = ({ data }) => {
-  console.log(data);
+const ListTable: React.FC<ListTableTypes> = (props) => {
+  const { data, toggleSelect, selectedAds, selectAllAdsToggle } = props;
   return (
     <>
       <div className="interest-list-table">
@@ -24,7 +27,13 @@ const ListTable: React.FC<ListTableTypes> = ({ data }) => {
               <th>
                 <label className="checbox-cont">
                   Name
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    onChange={() => {
+                      selectAllAdsToggle();
+                    }}
+                    checked={selectedAds.length === data.length}
+                  />
                   <span className="checkmark"></span>
                 </label>
               </th>
@@ -45,7 +54,13 @@ const ListTable: React.FC<ListTableTypes> = ({ data }) => {
                 <td>
                   <label className="checbox-cont">
                     {ads.name}
-                    <input type="checkbox" />
+                    <input
+                      type="checkbox"
+                      onChange={() => {
+                        toggleSelect(ads.id);
+                      }}
+                      checked={selectedAds.includes(ads.id)}
+                    />
                     <span className="checkmark"></span>
                   </label>
                 </td>

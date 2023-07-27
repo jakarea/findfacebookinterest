@@ -3,13 +3,18 @@ import React from "react";
 interface MenusProps {
   toggleFilter: Function;
   toggleProject: Function;
+
+  total: number;
+  selectedTotal: number;
 }
 
 const Menus: React.FC<MenusProps> = (props) => {
-  const { toggleFilter, toggleProject } = props;
+  const { toggleFilter, toggleProject, selectedTotal, total } = props;
   return (
     <div className="interest-list-header">
-      <h4>32 Interest Selected of 423</h4>
+      <h4>
+        {selectedTotal} Interest Selected of {total}
+      </h4>
       {/* <!-- filter area start --> */}
       <div className="header-filter">
         <button

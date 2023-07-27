@@ -1,7 +1,6 @@
 "use client";
 import axiosInstance from "@/utils/axiosInstance";
-import { useCallback, useState } from "react";
-import { v4 } from "uuid";
+import { useCallback, useMemo, useState } from "react";
 import KeywordFilterSidebar from "../KeywordFilterSidebar";
 import SaveToProjectModal from "../SaveToProjectModal";
 import ListTable, { AdsProps } from "./ListTable";
@@ -12,16 +11,16 @@ import cookie from "@/utils/cookie";
 import SearchBox from "./SearchBox";
 import SelectedKeyword, { KeywordProps } from "./SelectedKeyword";
 
+type SelectedAdsType = string | number;
+
 const SearchArea = () => {
   // static states
-  const [selectedKeywords, setSelectedKeywords] =
-    useState<KeywordProps[]>(DATA);
   const [isProjectOpen, setIsProjectOpen] = useState<boolean>(false);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
   // dynamic states
-  const [data, setData] = useState<AdsProps[]>([]);
-
+  const [data, setData] = useState<AdsProps[]>(ADS_DATA);
+  const [selectedAds, setSelectedAds] = useState<SelectedAdsType[]>([]);
   // static functions
   const toggleProject = () => {
     setIsProjectOpen((p) => !p);
@@ -45,6 +44,41 @@ const SearchArea = () => {
     }
   }, []);
 
+  const toggleSelect = useCallback((id: SelectedAdsType): void => {
+    setSelectedAds((p: SelectedAdsType[]): SelectedAdsType[] => {
+      if (p.includes(id)) {
+        return p.filter((i: SelectedAdsType) => i !== id);
+      }
+      return [...p, id];
+    });
+  }, []);
+
+  const selectedKeywords = useMemo<KeywordProps[]>(() => {
+    const filter: any[] = data.reduce((acc: any[], cur: any) => {
+      if (selectedAds.includes(cur.id)) {
+        cur?.path?.forEach((value: any) => {
+          if (!acc.includes(value)) {
+            acc.push(value);
+          }
+        });
+      }
+      return acc;
+    }, []);
+    return filter;
+  }, [data, selectedAds]);
+
+  const clearSelectedAds = () => {
+    setSelectedAds([]);
+  };
+  const selectAllAdsToggle = useCallback(() => {
+    setSelectedAds((p: SelectedAdsType[]): SelectedAdsType[] => {
+      if (p.length === data.length) {
+        return [];
+      }
+      return data.map((i: AdsProps) => i.id);
+    });
+  }, [data]);
+
   return (
     <>
       <section className="search-section hero-section pa-y4">
@@ -54,15 +88,30 @@ const SearchArea = () => {
             <SearchBox searchData={searchData} />
 
             <RecentKeywords />
-            <SelectedKeyword {...{ selectedKeywords, setSelectedKeywords }} />
+            <SelectedKeyword
+              selectedKeywords={selectedKeywords}
+              clearSelectedAds={clearSelectedAds}
+            />
 
-            <Menus {...{ toggleFilter, toggleProject }} />
-            <ListTable data={data} />
+            <Menus
+              {...{ toggleFilter, toggleProject }}
+              total={data.length}
+              selectedTotal={selectedAds.length}
+            />
+            <ListTable
+              data={data}
+              toggleSelect={toggleSelect}
+              selectedAds={selectedAds}
+              selectAllAdsToggle={selectAllAdsToggle}
+            />
           </div>
           {/* <!-- find interest search box --> */}
         </div>
 
-        <KeywordFilterSidebar {...{ isFilterOpen, setIsFilterOpen }} />
+        <KeywordFilterSidebar
+          isFilterOpen={isFilterOpen}
+          setIsFilterOpen={setIsFilterOpen}
+        />
 
         <SaveToProjectModal
           {...{
@@ -75,54 +124,69 @@ const SearchArea = () => {
   );
 };
 
-const DATA: KeywordProps[] = [
+const ADS_DATA: AdsProps[] = [
   {
-    id: v4(),
-    name: "Courtney",
+    id: "6002970955594",
+    name: "Fantasy films",
+    audience_size_lower_bound: 178575374,
+    audience_size_upper_bound: 210004640,
+    path: ["Interests", "Additional interests", "Fantasy films"],
+    description: null,
+    topic: "News and entertainment",
   },
   {
-    id: v4(),
-    name: "Max",
+    id: "6003283449854",
+    name: "Fandom",
+    audience_size_lower_bound: 166488375,
+    audience_size_upper_bound: 195790330,
+    path: ["Interests", "Additional interests", "Fandom"],
+    description: null,
+    topic: "Technology",
   },
   {
-    id: v4(),
-    name: "Greg",
+    id: "6003179672350",
+    name: "Fanatics",
+    audience_size_lower_bound: 120244804,
+    audience_size_upper_bound: 141407890,
+    path: ["Interests", "Additional interests", "Fanatics"],
+    description: null,
+    topic: "Company",
   },
   {
-    id: v4(),
-    name: "Angel",
+    id: "6003143359761",
+    name: "Anime and manga fandom",
+    audience_size_lower_bound: 41102814,
+    audience_size_upper_bound: 48336910,
+    path: ["Interests", "Additional interests", "Anime and manga fandom"],
+    description: null,
+    topic: "Technology",
   },
   {
-    id: v4(),
-    name: "Marjorie",
+    id: "6003420695831",
+    name: "Science fantasy",
+    audience_size_lower_bound: 32817151,
+    audience_size_upper_bound: 38592970,
+    path: ["Interests", "Additional interests", "Science fantasy"],
+    description: null,
+    topic: "News and entertainment",
   },
   {
-    id: v4(),
-    name: "Marketing",
+    id: "6003221212067",
+    name: "Romantic fantasy",
+    audience_size_lower_bound: 22859302,
+    audience_size_upper_bound: 26882540,
+    path: ["Interests", "Additional interests", "Romantic fantasy"],
+    description: null,
+    topic: "News and entertainment",
   },
   {
-    id: v4(),
-    name: "Marketing",
-  },
-  {
-    id: v4(),
-    name: "Marketing",
-  },
-  {
-    id: v4(),
-    name: "Marketing",
-  },
-  {
-    id: v4(),
-    name: "Gladys",
-  },
-  {
-    id: v4(),
-    name: "Arlene",
-  },
-  {
-    id: v4(),
-    name: "Victoria",
+    id: "6003319851418",
+    name: "Harry Potter fandom",
+    audience_size_lower_bound: 14873622,
+    audience_size_upper_bound: 17491380,
+    path: ["Interests", "Additional interests", "Harry Potter fandom"],
+    description: null,
+    topic: "News and entertainment",
   },
 ];
 
