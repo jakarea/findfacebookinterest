@@ -1,3 +1,4 @@
+"use client";
 import { baseUrl } from "@/utils";
 import axios from "axios";
 import { getToken } from "./token";

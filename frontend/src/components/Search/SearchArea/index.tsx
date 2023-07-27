@@ -12,15 +12,23 @@ import SearchBox from "./SearchBox";
 import SelectedKeyword, { KeywordProps } from "./SelectedKeyword";
 
 type SelectedAdsType = string | number;
+export interface WordListForFilterTypes {
+  [key: string]: number;
+}
 
 const SearchArea = () => {
   // static states
   const [isProjectOpen, setIsProjectOpen] = useState<boolean>(false);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [minAudience, setMinAudience] = useState<number>(0);
+  const [maxAudience, setMaxAudience] = useState<number>(0);
 
   // dynamic states
-  const [data, setData] = useState<AdsProps[]>(ADS_DATA);
+  const [data, setData] = useState<AdsProps[]>([]);
   const [selectedAds, setSelectedAds] = useState<SelectedAdsType[]>([]);
+  const [includeWords, setIncludeWords] = useState<string[]>([]);
+  const [excludeWords, setExcludeWords] = useState<string[]>([]);
+
   // static functions
   const toggleProject = () => {
     setIsProjectOpen((p) => !p);
@@ -28,6 +36,58 @@ const SearchArea = () => {
   const toggleFilter = () => {
     setIsFilterOpen((p) => !p);
   };
+
+  const filteredData = useMemo<AdsProps[]>(() => {
+    let filter = data
+      .reduce<AdsProps[]>((acc: AdsProps[], cur: AdsProps) => {
+        let condition = false;
+        if (minAudience === 0 || maxAudience === 0) condition = true;
+        if (minAudience && cur.audience_size_lower_bound >= minAudience) {
+          condition = true;
+        }
+        if (maxAudience && cur.audience_size_upper_bound <= maxAudience) {
+          condition = true;
+        }
+
+        if (condition) {
+          acc.push(cur);
+        }
+        return acc;
+      }, [])
+      .filter((ads: AdsProps) => {
+        if (excludeWords.length === 0) return true;
+        let condition = true;
+        excludeWords.forEach((i: string) => {
+          if (ads.name.toLowerCase().includes(i)) {
+            condition = false;
+          }
+        });
+        return condition;
+      })
+      .filter((ads: AdsProps) => {
+        let condition = false;
+        if (includeWords.length === 0) return true;
+        includeWords.forEach((i: string) => {
+          if (ads.name.toLowerCase().includes(i)) {
+            condition = true;
+          }
+        });
+        return condition;
+      });
+
+    setSelectedAds((p: SelectedAdsType[]): SelectedAdsType[] => {
+      return filter.reduce<SelectedAdsType[]>(
+        (acc: SelectedAdsType[], cur: AdsProps) => {
+          if (p.includes(cur.id)) {
+            acc.push(cur.id);
+          }
+          return acc;
+        },
+        []
+      );
+    });
+    return filter;
+  }, [data, minAudience, maxAudience, includeWords, excludeWords]);
 
   // dynamic functions
   const searchData = useCallback(async (key: string, lang: string) => {
@@ -54,31 +114,46 @@ const SearchArea = () => {
   }, []);
 
   const selectedKeywords = useMemo<KeywordProps[]>(() => {
-    const filter: any[] = data.reduce((acc: any[], cur: any) => {
+    return filteredData.reduce((acc: any[], cur: AdsProps) => {
       if (selectedAds.includes(cur.id)) {
-        cur?.path?.forEach((value: any) => {
-          if (!acc.includes(value)) {
-            acc.push(value);
-          }
-        });
+        acc.push(cur.name);
       }
       return acc;
     }, []);
-    return filter;
-  }, [data, selectedAds]);
+  }, [filteredData, selectedAds]);
 
   const clearSelectedAds = () => {
     setSelectedAds([]);
   };
+
   const selectAllAdsToggle = useCallback(() => {
     setSelectedAds((p: SelectedAdsType[]): SelectedAdsType[] => {
-      if (p.length === data.length) {
+      if (p.length === filteredData.length) {
         return [];
       }
-      return data.map((i: AdsProps) => i.id);
+      return filteredData.map((i: AdsProps) => i.id);
     });
-  }, [data]);
+  }, [filteredData]);
 
+  const wordListForFilter = useMemo<WordListForFilterTypes>(() => {
+    const words: WordListForFilterTypes = data
+      .reduce<string>((acc: string, cur: AdsProps) => {
+        return acc + " " + cur.name;
+      }, "")
+      .toLowerCase()
+      .replace(/[^a-zA-Z ]/g, "")
+      .split(" ")
+      .reduce<WordListForFilterTypes>(
+        (acc: WordListForFilterTypes, cur: string) => {
+          if (cur) {
+            acc[cur] = acc?.hasOwnProperty(cur) ? acc[cur] + 1 : 1;
+          }
+          return acc;
+        },
+        {}
+      );
+    return words;
+  }, [data]);
   return (
     <>
       <section className="search-section hero-section pa-y4">
@@ -95,11 +170,11 @@ const SearchArea = () => {
 
             <Menus
               {...{ toggleFilter, toggleProject }}
-              total={data.length}
+              total={filteredData.length}
               selectedTotal={selectedAds.length}
             />
             <ListTable
-              data={data}
+              data={filteredData}
               toggleSelect={toggleSelect}
               selectedAds={selectedAds}
               selectAllAdsToggle={selectAllAdsToggle}
@@ -111,6 +186,15 @@ const SearchArea = () => {
         <KeywordFilterSidebar
           isFilterOpen={isFilterOpen}
           setIsFilterOpen={setIsFilterOpen}
+          minAudience={minAudience}
+          maxAudience={maxAudience}
+          setMinAudience={setMinAudience}
+          setMaxAudience={setMaxAudience}
+          wordListForFilter={wordListForFilter}
+          includeWords={includeWords}
+          setIncludeWords={setIncludeWords}
+          excludeWords={excludeWords}
+          setExcludeWords={setExcludeWords}
         />
 
         <SaveToProjectModal

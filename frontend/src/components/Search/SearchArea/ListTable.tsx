@@ -6,7 +6,7 @@ export interface AdsProps {
   audience_size_lower_bound: number;
   audience_size_upper_bound: number;
   description?: string | null;
-  name: string | number;
+  name: string;
   path: string[];
   topic: string;
 }
@@ -18,6 +18,7 @@ interface ListTableTypes {
 }
 const ListTable: React.FC<ListTableTypes> = (props) => {
   const { data, toggleSelect, selectedAds, selectAllAdsToggle } = props;
+
   return (
     <>
       <div className="interest-list-table">
@@ -32,7 +33,9 @@ const ListTable: React.FC<ListTableTypes> = (props) => {
                     onChange={() => {
                       selectAllAdsToggle();
                     }}
-                    checked={selectedAds.length === data.length}
+                    checked={
+                      selectedAds.length === data.length && data.length !== 0
+                    }
                   />
                   <span className="checkmark"></span>
                 </label>

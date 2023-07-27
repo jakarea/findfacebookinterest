@@ -122,7 +122,7 @@ class KeywordController extends Controller
             return;
         }
 
-        if ($search['count'] >= 7) {
+        if ($search['count'] >= 7 * 100) {
             return response()->json([
                 'success' => false,
                 'message' => 'Robot',
@@ -158,7 +158,7 @@ class KeywordController extends Controller
 
         $client = new Client();
         $type = isset($data['type']) ? $data['type'] : 'adinterest';
-        $limit = isset($data['limit']) ? $data['limit'] : '10';
+        $limit = isset($data['limit']) ? $data['limit'] : '1000';
         $key = $data['name'];
 
         $url = sprintf('%s/search?type=%s&q=%s&limit=%s&locale=&access_token=%s', $this->apiBase, $type, $key, $limit, env('FACEBOOK_ACCESS_TOKEN'));
