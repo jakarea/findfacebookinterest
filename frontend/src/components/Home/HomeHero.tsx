@@ -1,3 +1,7 @@
+"use client";
+import RecentKeywords from "../RecentKeyword";
+import HomeSearchForm from "./SearchForm";
+
 const HomeHero = () => {
   return (
     <div>
@@ -18,47 +22,10 @@ const HomeHero = () => {
 
           {/* <!-- find interest search box --> */}
           <div className="find-interest-search-box">
-            <form>
-              <div className="d-flex">
-                <div className="form-group">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <g opacity="0.6">
-                      <path
-                        d="M21 21L15.8033 15.8033M15.8033 15.8033C17.1605 14.4461 18 12.5711 18 10.5C18 6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18C12.5711 18 14.4461 17.1605 15.8033 15.8033Z"
-                        stroke="#7B8591"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </g>
-                  </svg>
-                  <input type="text" placeholder="Enter Keywords" />
-                </div>
-                <div className="form-bttns">
-                  <select>
-                    <option value="en">English (US)</option>
-                    <option value="bn">Bangla (BN)</option>
-                  </select>
-                  <button type="submit" className="btn common-bttn">
-                    Explore
-                  </button>
-                </div>
-              </div>
-            </form>
+            <HomeSearchForm />
 
             {/* <!-- recent keyword start --> */}
-            <div className="recent-keywird-box">
-              <a href="#">Real Estate</a>
-              <a href="#">Marketing</a>
-              <a href="#">Generative AI</a>
-              <a href="#">Toys</a>
-            </div>
+            <RecentKeywords />
             {/* <!-- recent keyword end --> */}
           </div>
           {/* <!-- find interest search box --> */}

@@ -1,46 +1,26 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 
 interface FormInitialType {
   key: string;
   lang: string;
 }
-interface SearchBoxTypes {
-  searchData: (key: string, lang: string) => void;
-}
-const SearchBox: React.FC<SearchBoxTypes> = (props) => {
-  const { searchData } = props;
+
+const HomeSearchForm = () => {
   const {
     register,
     control,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<FormInitialType>();
+
   const router = useRouter();
 
-  const submitHandler = useCallback(
-    (values: FormInitialType) => {
-      searchData(values.key, values.lang);
-    },
-    [searchData]
-  );
-  const params = useSearchParams();
-  useEffect(() => {
-    const queryKey: string | null = params.get("key");
-    const lang: string | null = params.get("lang");
-    if (queryKey) {
-      setValue("key", queryKey);
-    }
-    if (lang) {
-      setValue("lang", lang);
-    }
-    if (queryKey && lang) {
-      submitHandler({ key: queryKey, lang: lang });
-    }
-  }, [params, setValue, submitHandler, router]);
+  const submitHandler = (values: FormInitialType) => {
+    const query = `key=${values.key}&lang=${values.lang}`;
+    router.push(`/search?${query}`);
+  };
 
   return (
     <>
@@ -109,4 +89,4 @@ const SearchIcon = () => {
   );
 };
 
-export default SearchBox;
+export default HomeSearchForm;

@@ -1,29 +1,49 @@
 "use client";
-import { useState } from "react";
+import axiosInstance from "@/utils/axiosInstance";
+import { useCallback, useState } from "react";
 import { v4 } from "uuid";
 import KeywordFilterSidebar from "../KeywordFilterSidebar";
 import SaveToProjectModal from "../SaveToProjectModal";
-import ListTable from "./ListTable";
+import ListTable, { AdsProps } from "./ListTable";
 import Menus from "./Menus";
-import RecentKeywords from "./RecentKeywords";
+
+import RecentKeywords from "@/components/RecentKeyword";
+import cookie from "@/utils/cookie";
 import SearchBox from "./SearchBox";
 import SelectedKeyword, { KeywordProps } from "./SelectedKeyword";
 
 const SearchArea = () => {
+  // static states
   const [selectedKeywords, setSelectedKeywords] =
     useState<KeywordProps[]>(DATA);
+  const [isProjectOpen, setIsProjectOpen] = useState<boolean>(false);
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
-  const [saveToProjectModal, setSaveToProjectModal] = useState<boolean>(false);
-  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(true);
+  // dynamic states
+  const [data, setData] = useState<AdsProps[]>([]);
 
-  const toggleProject = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    setSaveToProjectModal((p) => !p);
+  // static functions
+  const toggleProject = () => {
+    setIsProjectOpen((p) => !p);
   };
   const toggleFilter = () => {
     setIsFilterOpen((p) => !p);
   };
+
+  // dynamic functions
+  const searchData = useCallback(async (key: string, lang: string) => {
+    try {
+      const data = {
+        name: key,
+        lang,
+        cookie: cookie.get(),
+      };
+      const res = await axiosInstance.post("/key", data);
+      setData(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>
@@ -31,13 +51,13 @@ const SearchArea = () => {
         <div className="container">
           {/* <!-- find interest search box --> */}
           <div className="find-interest-search-box mt-0">
-            <SearchBox />
+            <SearchBox searchData={searchData} />
 
             <RecentKeywords />
             <SelectedKeyword {...{ selectedKeywords, setSelectedKeywords }} />
 
             <Menus {...{ toggleFilter, toggleProject }} />
-            <ListTable />
+            <ListTable data={data} />
           </div>
           {/* <!-- find interest search box --> */}
         </div>
@@ -46,8 +66,8 @@ const SearchArea = () => {
 
         <SaveToProjectModal
           {...{
-            saveToProjectModal,
-            setSaveToProjectModal,
+            saveToProjectModal: isProjectOpen,
+            setSaveToProjectModal: setIsProjectOpen,
           }}
         />
       </section>

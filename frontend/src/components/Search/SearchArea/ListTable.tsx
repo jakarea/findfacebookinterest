@@ -1,6 +1,20 @@
+import { numberToIntl } from "@/utils/string";
 import Image from "next/image";
 
-const ListTable = () => {
+export interface AdsProps {
+  id: string | number;
+  audience_size_lower_bound: number;
+  audience_size_upper_bound: number;
+  description: string | number;
+  name: string | number;
+  path: string[];
+  topic: string;
+}
+interface ListTableTypes {
+  data: AdsProps[];
+}
+const ListTable: React.FC<ListTableTypes> = ({ data }) => {
+  console.log(data);
   return (
     <>
       <div className="interest-list-table">
@@ -26,46 +40,51 @@ const ListTable = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <label className="checbox-cont">
-                  Magna Malesuada
-                  <input type="checkbox" />
-                  <span className="checkmark"></span>
-                </label>
-              </td>
-              <td>1.23 M ~ 4.25 M</td>
-              <td>Adobe MAX</td>
-              <td>
-                <a href="#">
-                  <Image
-                    src="./assets/images/fb.svg"
-                    alt="Landscape picture"
-                    width={25}
-                    height={25}
-                    className="img-fluid"
-                  />
-                </a>
-                <a href="#">
-                  <Image
-                    src="./assets/images/google.svg"
-                    alt="Landscape picture"
-                    width={25}
-                    height={25}
-                    className="img-fluid"
-                  />
-                </a>
-                <a href="#">
-                  <Image
-                    src="./assets/images/f-icon.svg"
-                    alt="Landscape picture"
-                    width={25}
-                    height={25}
-                    className="img-fluid"
-                  />
-                </a>
-              </td>
-            </tr>
+            {data.map((ads: AdsProps) => (
+              <tr key={ads.id}>
+                <td>
+                  <label className="checbox-cont">
+                    {ads.name}
+                    <input type="checkbox" />
+                    <span className="checkmark"></span>
+                  </label>
+                </td>
+                <td>
+                  {numberToIntl(ads.audience_size_lower_bound)} ~{" "}
+                  {numberToIntl(ads.audience_size_upper_bound)}
+                </td>
+                <td>{ads.topic}</td>
+                <td>
+                  <a href="#">
+                    <Image
+                      src="./assets/images/fb.svg"
+                      alt="Landscape picture"
+                      width={25}
+                      height={25}
+                      className="img-fluid"
+                    />
+                  </a>
+                  <a href="#">
+                    <Image
+                      src="./assets/images/google.svg"
+                      alt="Landscape picture"
+                      width={25}
+                      height={25}
+                      className="img-fluid"
+                    />
+                  </a>
+                  <a href="#">
+                    <Image
+                      src="./assets/images/f-icon.svg"
+                      alt="Landscape picture"
+                      width={25}
+                      height={25}
+                      className="img-fluid"
+                    />
+                  </a>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
