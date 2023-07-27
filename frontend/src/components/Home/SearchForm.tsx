@@ -1,4 +1,5 @@
 "use client";
+import session from "@/utils/session";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 
@@ -18,8 +19,9 @@ const HomeSearchForm = () => {
   const router = useRouter();
 
   const submitHandler = (values: FormInitialType) => {
-    const query = `key=${values.key}&lang=${values.lang}`;
-    router.push(`/search?${query}`);
+    session.set("key", values.key);
+    session.set("lang", values.lang);
+    router.push(`/search`);
   };
 
   return (

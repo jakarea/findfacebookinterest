@@ -1,4 +1,5 @@
 "use client";
+import session from "@/utils/session";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -29,16 +30,17 @@ const SearchBox: React.FC<SearchBoxTypes> = (props) => {
   );
   const params = useSearchParams();
   useEffect(() => {
-    const queryKey: string | null = params.get("key");
-    const lang: string | null = params.get("lang");
+    const queryKey: string | null = session.get("key");
+    const lang: string | null = session.get("lang");
     if (queryKey) {
       setValue("key", queryKey);
     }
     if (lang) {
       setValue("lang", lang);
     }
-    if (queryKey && lang) {
-      submitHandler({ key: queryKey, lang: lang });
+    if (queryKey) {
+      submitHandler({ key: queryKey, lang: lang || "en" });
+      session.clear();
     }
   }, [params, setValue, submitHandler, router]);
 
