@@ -1,14 +1,14 @@
 "use client";
+import RecentKeywords from "@/components/RecentKeyword";
 import axiosInstance from "@/utils/axiosInstance";
+import cookie from "@/utils/cookie";
+import copy from "copy-to-clipboard";
 import { useCallback, useMemo, useState } from "react";
+import { toast } from "react-toastify";
 import KeywordFilterSidebar from "../KeywordFilterSidebar";
 import SaveToProjectModal from "../SaveToProjectModal";
 import ListTable, { AdsProps } from "./ListTable";
 import Menus from "./Menus";
-
-import RecentKeywords from "@/components/RecentKeyword";
-import cookie from "@/utils/cookie";
-import copy from "copy-to-clipboard";
 import SearchBox from "./SearchBox";
 import SelectedKeyword, { KeywordProps } from "./SelectedKeyword";
 
@@ -158,7 +158,20 @@ const SearchArea = () => {
 
   const copySelectedWord = () => {
     copy(selectedKeywords.join(" "));
+    toast.success("Copied to Clipboard!");
   };
+
+  const csvData = useMemo<AdsProps[]>(() => {
+    return data.reduce<AdsProps[]>(
+      (acc: AdsProps[], cur: AdsProps): AdsProps[] => {
+        if (selectedAds.includes(cur.id)) {
+          acc.push(cur);
+        }
+        return acc;
+      },
+      []
+    );
+  }, [data, selectedAds]);
 
   return (
     <>
@@ -179,6 +192,7 @@ const SearchArea = () => {
               total={filteredData.length}
               selectedTotal={selectedAds.length}
               copySelectedWord={copySelectedWord}
+              csvData={csvData}
             />
             <ListTable
               data={filteredData}

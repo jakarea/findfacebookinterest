@@ -1,9 +1,12 @@
 import React from "react";
+import { CSVLink } from "react-csv";
+import { AdsProps } from "./ListTable";
 
 interface MenusProps {
   toggleFilter: Function;
   toggleProject: Function;
   copySelectedWord: Function;
+  csvData: AdsProps[];
 
   total: number;
   selectedTotal: number;
@@ -16,6 +19,7 @@ const Menus: React.FC<MenusProps> = (props) => {
     selectedTotal,
     total,
     copySelectedWord,
+    csvData,
   } = props;
   return (
     <div className="interest-list-header">
@@ -32,7 +36,6 @@ const Menus: React.FC<MenusProps> = (props) => {
           <FilterIcon />
           Filter
         </button>
-
         <button
           type="button"
           className="btn"
@@ -41,11 +44,11 @@ const Menus: React.FC<MenusProps> = (props) => {
           <CopyClipboardIcon />
           Copy to Clipboard
         </button>
-
-        <button type="button" className="btn">
+        <CSVLink data={csvData} className="btn">
           <ExportCsvIcon />
           Export to CSV
-        </button>
+        </CSVLink>
+
         <button
           type="button"
           className="btn modal-bttn"
