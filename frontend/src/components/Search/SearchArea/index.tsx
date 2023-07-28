@@ -8,6 +8,7 @@ import Menus from "./Menus";
 
 import RecentKeywords from "@/components/RecentKeyword";
 import cookie from "@/utils/cookie";
+import copy from "copy-to-clipboard";
 import SearchBox from "./SearchBox";
 import SelectedKeyword, { KeywordProps } from "./SelectedKeyword";
 
@@ -154,6 +155,11 @@ const SearchArea = () => {
       );
     return words;
   }, [data]);
+
+  const copySelectedWord = () => {
+    copy(selectedKeywords.join(" "));
+  };
+
   return (
     <>
       <section className="search-section hero-section pa-y4">
@@ -172,6 +178,7 @@ const SearchArea = () => {
               {...{ toggleFilter, toggleProject }}
               total={filteredData.length}
               selectedTotal={selectedAds.length}
+              copySelectedWord={copySelectedWord}
             />
             <ListTable
               data={filteredData}

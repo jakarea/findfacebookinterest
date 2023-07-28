@@ -3,13 +3,20 @@ import React from "react";
 interface MenusProps {
   toggleFilter: Function;
   toggleProject: Function;
+  copySelectedWord: Function;
 
   total: number;
   selectedTotal: number;
 }
 
 const Menus: React.FC<MenusProps> = (props) => {
-  const { toggleFilter, toggleProject, selectedTotal, total } = props;
+  const {
+    toggleFilter,
+    toggleProject,
+    selectedTotal,
+    total,
+    copySelectedWord,
+  } = props;
   return (
     <div className="interest-list-header">
       <h4>
@@ -25,10 +32,16 @@ const Menus: React.FC<MenusProps> = (props) => {
           <FilterIcon />
           Filter
         </button>
-        <button type="button" className="btn">
+
+        <button
+          type="button"
+          className="btn"
+          onClick={() => copySelectedWord()}
+        >
           <CopyClipboardIcon />
           Copy to Clipboard
         </button>
+
         <button type="button" className="btn">
           <ExportCsvIcon />
           Export to CSV
