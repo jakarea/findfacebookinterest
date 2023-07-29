@@ -1,5 +1,6 @@
 "use client";
 import RecentKeywords from "@/components/RecentKeyword";
+import { useAuthContext } from "@/context/authContext";
 import axiosInstance from "@/utils/axiosInstance";
 import cookie from "@/utils/cookie";
 import copy from "copy-to-clipboard";
@@ -18,6 +19,9 @@ export interface WordListForFilterTypes {
 }
 
 const SearchArea = () => {
+  // global state
+  const { state, setState } = useAuthContext();
+
   // static states
   const [isProjectOpen, setIsProjectOpen] = useState<boolean>(false);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -28,10 +32,14 @@ const SearchArea = () => {
   const [data, setData] = useState<AdsProps[]>([]);
   const [selectedAds, setSelectedAds] = useState<SelectedAdsType[]>([]);
   const [includeWords, setIncludeWords] = useState<string[]>([]);
-  const [excludeWords, setExcludeWords] = useState<string[]>([]);
+  const [excludeTopics, setExcludeTopics] = useState<string[]>([]);
 
   // static functions
   const toggleProject = () => {
+    if (!state.isAuthenticated) {
+      toast.error("You must login to save you project data!");
+      return;
+    }
     setIsProjectOpen((p) => !p);
   };
   const toggleFilter = () => {
@@ -56,14 +64,8 @@ const SearchArea = () => {
         return acc;
       }, [])
       .filter((ads: AdsProps) => {
-        if (excludeWords.length === 0) return true;
-        let condition = true;
-        excludeWords.forEach((i: string) => {
-          if (ads.name.toLowerCase().includes(i)) {
-            condition = false;
-          }
-        });
-        return condition;
+        if (excludeTopics.length === 0) return true;
+        return !excludeTopics.includes(ads.topic || "None");
       })
       .filter((ads: AdsProps) => {
         let condition = false;
@@ -88,7 +90,7 @@ const SearchArea = () => {
       );
     });
     return filter;
-  }, [data, minAudience, maxAudience, includeWords, excludeWords]);
+  }, [data, minAudience, maxAudience, includeWords, excludeTopics]);
 
   // dynamic functions
   const searchData = useCallback(async (key: string, lang: string) => {
@@ -156,8 +158,27 @@ const SearchArea = () => {
     return words;
   }, [data]);
 
+  const topicsListFilter =
+    useMemo<WordListForFilterTypes>((): WordListForFilterTypes => {
+      const words: WordListForFilterTypes = data.reduce<WordListForFilterTypes>(
+        (acc: WordListForFilterTypes, cur: AdsProps) => {
+          if (cur.hasOwnProperty("topic") && cur?.topic) {
+            acc[cur.topic] = acc?.hasOwnProperty(cur.topic)
+              ? acc[cur.topic] + 1
+              : 1;
+          } else {
+            console.log(acc);
+            acc.None = acc?.None ? acc.None + 1 : 1;
+          }
+          return acc;
+        },
+        {}
+      );
+      return words;
+    }, [data]);
+
   const copySelectedWord = () => {
-    copy(selectedKeywords.join(" "));
+    copy(selectedKeywords.join(", "));
     toast.success("Copied to Clipboard!");
   };
 
@@ -212,10 +233,11 @@ const SearchArea = () => {
           setMinAudience={setMinAudience}
           setMaxAudience={setMaxAudience}
           wordListForFilter={wordListForFilter}
+          topicsListFilter={topicsListFilter}
           includeWords={includeWords}
           setIncludeWords={setIncludeWords}
-          excludeWords={excludeWords}
-          setExcludeWords={setExcludeWords}
+          excludeTopics={excludeTopics}
+          setExcludeTopics={setExcludeTopics}
         />
 
         <SaveToProjectModal

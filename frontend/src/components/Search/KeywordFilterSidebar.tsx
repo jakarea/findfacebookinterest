@@ -10,10 +10,11 @@ interface Props {
   setMinAudience: Function;
   setMaxAudience: Function;
   wordListForFilter: WordListForFilterTypes;
+  topicsListFilter: WordListForFilterTypes;
   includeWords: string[];
-  excludeWords: string[];
+  excludeTopics: string[];
   setIncludeWords: Function;
-  setExcludeWords: Function;
+  setExcludeTopics: Function;
 }
 
 const KeywordFilterSidebar: React.FC<Props> = (props) => {
@@ -25,10 +26,11 @@ const KeywordFilterSidebar: React.FC<Props> = (props) => {
     setMinAudience,
     setMaxAudience,
     wordListForFilter,
+    topicsListFilter,
     includeWords,
-    excludeWords,
+    excludeTopics,
     setIncludeWords,
-    setExcludeWords,
+    setExcludeTopics,
   } = props;
   const closeModal = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -43,7 +45,7 @@ const KeywordFilterSidebar: React.FC<Props> = (props) => {
     });
   };
   const toggleExcludeWords = (name: string) => {
-    setExcludeWords((p: string[]): string[] => {
+    setExcludeTopics((p: string[]): string[] => {
       return p.includes(name)
         ? p.filter((i: string) => i !== name)
         : [...p, name];
@@ -108,7 +110,6 @@ const KeywordFilterSidebar: React.FC<Props> = (props) => {
                               {name}
                               <input
                                 type="checkbox"
-                                disabled={excludeWords.includes(name)}
                                 onChange={() => {
                                   toggleIncludeWords(name);
                                 }}
@@ -138,7 +139,7 @@ const KeywordFilterSidebar: React.FC<Props> = (props) => {
                 <div className="exclude-word">
                   <h6>Exclude Words</h6>
                   <table>
-                    {Object.entries(wordListForFilter)
+                    {Object.entries(topicsListFilter)
                       .sort((a: [string, number], b: [string, number]) => {
                         return b[1] - a[1];
                       })
@@ -149,11 +150,10 @@ const KeywordFilterSidebar: React.FC<Props> = (props) => {
                               {name}
                               <input
                                 type="checkbox"
-                                disabled={includeWords.includes(name)}
                                 onChange={() => {
                                   toggleExcludeWords(name);
                                 }}
-                                checked={excludeWords.includes(name)}
+                                checked={excludeTopics.includes(name)}
                               />
                               <span className="checkmark"></span>
                             </label>

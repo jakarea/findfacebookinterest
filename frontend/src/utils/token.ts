@@ -1,3 +1,5 @@
+"use client";
+
 const TOKEN_NAME = "JWT_TOKEN";
 
 export const storeToken = (token: string): void => {
@@ -5,6 +7,7 @@ export const storeToken = (token: string): void => {
 };
 
 export const getToken = (): string | null => {
+  if (typeof window === "undefined") return null;
   return localStorage.getItem(TOKEN_NAME);
 };
 

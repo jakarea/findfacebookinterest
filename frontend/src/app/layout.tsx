@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 //import styles for react drawer
+import { AuthContextProvider } from "@/context/AuthContextProivder";
 import "react-modern-drawer/dist/index.css";
 import { ToastContainer } from "react-toastify";
 const inter = Inter({ subsets: ["latin"] });
@@ -22,22 +23,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+        <AuthContextProvider>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
 
-        <Header />
-        {children}
-        <Footer />
+          <Header />
+          {children}
+          <Footer />
+        </AuthContextProvider>
       </body>
     </html>
   );

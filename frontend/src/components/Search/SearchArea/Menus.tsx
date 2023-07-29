@@ -21,6 +21,7 @@ const Menus: React.FC<MenusProps> = (props) => {
     copySelectedWord,
     csvData,
   } = props;
+
   return (
     <div className="interest-list-header">
       <h4>
