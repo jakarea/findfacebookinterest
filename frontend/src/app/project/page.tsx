@@ -1,11 +1,30 @@
+"use client";
 import AttentionMarketeers from "@/components/AttentionMarketeers";
-import HomeSearch from "@/components/Project/Search";
+import ProjectTable from "@/components/Project/ProjectTable";
+import { useAuthContext } from "@/context/authContext";
+import { getToken } from "@/utils/token";
+import { useRouter } from "next/navigation";
 
-/* eslint-disable @next/next/no-img-element */
 export default function Page() {
+  const { state } = useAuthContext();
+  const router = useRouter();
+  const token = getToken();
+  if (!token) {
+    router.push("/");
+    return null;
+  }
+  if (token && !state.isAuthenticated) {
+    return <h2>Loading....</h2>;
+  }
+
+  if (!state.isAuthenticated) {
+    router.push("/");
+    return null;
+  }
+
   return (
     <main className="">
-      <HomeSearch />
+      <ProjectTable />
       <AttentionMarketeers />
     </main>
   );

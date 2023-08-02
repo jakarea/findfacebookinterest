@@ -39,7 +39,19 @@ class ProjectController extends Controller
 
         $project = Project::create($project_data);
 
-        return response()->json($project);
+        if ($project) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Project created successful',
+                'data' => [
+                    'id' => $project->id,
+                    'name' => $project->name,
+                    'result' => $project->results,
+
+                ]
+            ], 200);
+        }
+        return response()->json(['success' => false, 'message' => 'Project creation failed', 'data' => null], 400);
 
     }
 

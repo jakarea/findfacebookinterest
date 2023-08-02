@@ -20,7 +20,7 @@ export interface WordListForFilterTypes {
 
 const SearchArea = () => {
   // global state
-  const { state, setState } = useAuthContext();
+  const { state } = useAuthContext();
 
   // static states
   const [isProjectOpen, setIsProjectOpen] = useState<boolean>(false);
@@ -241,10 +241,9 @@ const SearchArea = () => {
         />
 
         <SaveToProjectModal
-          {...{
-            saveToProjectModal: isProjectOpen,
-            setSaveToProjectModal: setIsProjectOpen,
-          }}
+          isProjectOpen={isProjectOpen}
+          setIsProjectOpen={setIsProjectOpen}
+          selectedString={selectedKeywords.join(",")}
         />
       </section>
     </>
