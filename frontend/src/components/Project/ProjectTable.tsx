@@ -1,8 +1,42 @@
 "use client";
-import { v4 } from "uuid";
-import ProjectRow, { ProjectItemProp } from "./ProjectRow";
-
+import axiosInstance from "@/utils/axiosInstance";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import ProjectRow from "./ProjectRow";
+interface ProjectItemProps {
+  name: string;
+  results: string;
+  id: number | string;
+}
 const ProjectTable = () => {
+  const [projects, setProjects] = useState<ProjectItemProps[]>([]);
+  useEffect(() => {
+    axiosInstance
+      .get("/project")
+      .then((res) => {
+        setProjects(res.data);
+      })
+      .catch((e) => [console.log(e)]);
+  }, []);
+
+  const deleteHandler =
+    (id: string) => async (event: React.MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      try {
+        const res = await axiosInstance.delete(`/project/${id}`);
+        setProjects((prevProject: ProjectItemProps[]): ProjectItemProps[] => {
+          return prevProject.filter(
+            (item: ProjectItemProps) => item.id !== parseInt(id)
+          );
+        });
+        toast.success(res?.data?.message || "Project deleted successfully!");
+      } catch (error: any) {
+        toast.error(
+          error?.response?.data?.message || "Project deletion failed"
+        );
+      }
+    };
+
   return (
     <>
       {/* <!-- search section start --> */}
@@ -23,12 +57,14 @@ const ProjectTable = () => {
                 </thead>
                 <tbody>
                   {/* <!-- item --> */}
-                  {DATA.map((item: ProjectItemProp) => (
+                  {projects.map((item: ProjectItemProps) => (
                     <ProjectRow
-                      count={item.count}
+                      count={item?.results?.split(",").length}
                       id={item.id}
-                      title={item.title}
+                      title={item.name}
                       key={item.id}
+                      deleteHandler={deleteHandler}
+                      results={item.results}
                     />
                   ))}
 
@@ -47,26 +83,3 @@ const ProjectTable = () => {
 };
 
 export default ProjectTable;
-
-const DATA: ProjectItemProp[] = [
-  {
-    id: v4(),
-    title: "Playstation 4 Limited Edition (with games)",
-    count: Math.floor(Math.random() * 100),
-  },
-  {
-    id: v4(),
-    title: "Playstation 4 Limited Edition (with games)",
-    count: Math.floor(Math.random() * 100),
-  },
-  {
-    id: v4(),
-    title: "Playstation 4 Limited Edition (with games)",
-    count: Math.floor(Math.random() * 100),
-  },
-  {
-    id: v4(),
-    title: "Playstation 4 Limited Edition (with games)",
-    count: Math.floor(Math.random() * 100),
-  },
-];
