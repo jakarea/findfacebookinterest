@@ -6,6 +6,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Drawer from "react-modern-drawer";
+import LoginFacebook from "./LoginFacebook";
 
 interface InitialFormState {
   email: string;
@@ -149,6 +150,9 @@ const Login: React.FC<LoginProps> = (props) => {
               >
                 Login with Google
               </button>
+            </div>
+            <div className="form-submit" style={{ marginTop: 20 }}>
+              <LoginFacebook login={login} />
             </div>
 
             <div className="forgot-password">

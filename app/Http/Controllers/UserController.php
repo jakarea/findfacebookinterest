@@ -89,6 +89,9 @@ class UserController extends Controller
             if ($authType && $authType === 'google') {
                 return $this->googleOAuthLogin($creds['access_token']);
             }
+            if ($authType && $authType === 'facebook') {
+                return $this->facebookOAuthLogin($creds['access_token']);
+            }
         }
 
         $user = User::where('email', $creds['email'])->first();
@@ -264,8 +267,6 @@ class UserController extends Controller
         return response()->json(['error' => 0, 'id' => $user->id, 'token' => $plainTextToken], 200);
     }
 
-
-
     private function getDataFromGoogleAccessToken($token)
     {
 
@@ -280,4 +281,62 @@ class UserController extends Controller
             return false;
         }
     }
+
+
+    // oauth for facebook
+    private function facebookOAuthLogin($access_token)
+    {
+
+        $tokenData = $this->getDataFromFacebookAccessToken($access_token);
+
+        if (!$tokenData) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Authentication errors',
+                'data' => ['Invalid credentials']
+            ]);
+        }
+
+        $emailOrId = isset($tokenData['email']) ? $tokenData['email'] : $tokenData['id'];
+
+        $user = User::where('email', $emailOrId)->where('auth_type', 'facebook')->first();
+
+        if (!$user) {
+            $user = User::create([
+                'email' => $emailOrId,
+                'name' => $tokenData['name'],
+                "auth_type" => 'facebook',
+                'password' => null
+            ]);
+
+            $defaultRoleSlug = config('hydra.default_user_role_slug', 'user');
+            $user->roles()->attach(Role::where('slug', $defaultRoleSlug)->first());
+        }
+
+        if (config('hydra.delete_previous_access_tokens_on_login', false)) {
+            $user->tokens()->delete();
+        }
+
+        $roles = $user->roles->pluck('slug')->all();
+
+        $plainTextToken = $user->createToken('hydra-api-token', $roles)->plainTextToken;
+
+        return response()->json(['error' => 0, 'id' => $user->id, 'token' => $plainTextToken], 200);
+    }
+
+    private function getDataFromFacebookAccessToken($token)
+    {
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get('https://graph.facebook.com/v16.0/574998071050123?fields=name,email&access_token=' . $token);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            return $data;
+        } else {
+            return false;
+        }
+    }
+
 }
