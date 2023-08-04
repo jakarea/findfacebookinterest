@@ -3,6 +3,7 @@ import { baseUrl } from "@/utils";
 import { getToken, removeToken } from "@/utils/token";
 import axios from "axios";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import Login from "./Login";
 import Register from "./Register";
@@ -31,6 +32,13 @@ const HeaderMenu = () => {
     });
     removeToken();
   };
+  const pathname = usePathname();
+  const navigate = useRouter();
+  useEffect(() => {
+    if (pathname === "/project" && !state.isAuthenticated) {
+      navigate.push("/");
+    }
+  }, [pathname, navigate, state.isAuthenticated]);
 
   useEffect(() => {
     const token = getToken();
