@@ -5,6 +5,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import cookie from "@/utils/cookie";
 import copy from "copy-to-clipboard";
 import { useCallback, useMemo, useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import KeywordFilterSidebar from "../KeywordFilterSidebar";
 import SaveToProjectModal from "../SaveToProjectModal";
@@ -12,7 +13,6 @@ import ListTable, { AdsProps } from "./ListTable";
 import Menus from "./Menus";
 import SearchBox from "./SearchBox";
 import SelectedKeyword, { KeywordProps } from "./SelectedKeyword";
-
 type SelectedAdsType = string | number;
 export interface WordListForFilterTypes {
   [key: string]: number;
@@ -25,6 +25,7 @@ const SearchArea = () => {
   // static states
   const [isProjectOpen, setIsProjectOpen] = useState<boolean>(false);
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [minAudience, setMinAudience] = useState<number>(0);
   const [maxAudience, setMaxAudience] = useState<number>(0);
 
@@ -95,6 +96,7 @@ const SearchArea = () => {
   // dynamic functions
   const searchData = useCallback(async (key: string, lang: string) => {
     try {
+      setIsLoading(true);
       const data = {
         name: key,
         lang,
@@ -102,7 +104,9 @@ const SearchArea = () => {
       };
       const res = await axiosInstance.post("/key", data);
       setData(res.data.data);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   }, []);
@@ -201,7 +205,24 @@ const SearchArea = () => {
           {/* <!-- find interest search box --> */}
           <div className="find-interest-search-box mt-0">
             <SearchBox searchData={searchData} />
-
+            {isLoading && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: 10,
+                  marginBottom: 10,
+                }}
+              >
+                <RotatingLines
+                  strokeColor="grey"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  width="96"
+                  visible={true}
+                />
+              </div>
+            )}
             <RecentKeywords />
             <SelectedKeyword
               selectedKeywords={selectedKeywords}

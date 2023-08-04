@@ -1,6 +1,7 @@
 "use client";
 import axiosInstance from "@/utils/axiosInstance";
 import { useEffect, useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
 import ProjectRow from "./ProjectRow";
 interface ProjectItemProps {
@@ -10,13 +11,18 @@ interface ProjectItemProps {
 }
 const ProjectTable = () => {
   const [projects, setProjects] = useState<ProjectItemProps[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     axiosInstance
       .get("/project")
       .then((res) => {
+        setIsLoading(false);
         setProjects(res.data);
       })
-      .catch((e) => [console.log(e)]);
+      .catch((e) => {
+        setIsLoading(false);
+        console.log(e);
+      });
   }, []);
 
   const deleteHandler =
@@ -57,16 +63,31 @@ const ProjectTable = () => {
                 </thead>
                 <tbody>
                   {/* <!-- item --> */}
-                  {projects.map((item: ProjectItemProps) => (
-                    <ProjectRow
-                      count={item?.results?.split(",").length}
-                      id={item.id}
-                      title={item.name}
-                      key={item.id}
-                      deleteHandler={deleteHandler}
-                      results={item.results}
-                    />
-                  ))}
+                  {isLoading && (
+                    <tr>
+                      <td colSpan={1}></td>
+                      <td>
+                        <RotatingLines
+                          strokeColor="grey"
+                          strokeWidth="5"
+                          animationDuration="0.75"
+                          width="96"
+                          visible={true}
+                        />
+                      </td>
+                    </tr>
+                  )}
+                  {!isLoading &&
+                    projects.map((item: ProjectItemProps) => (
+                      <ProjectRow
+                        count={item?.results?.split(",").length}
+                        id={item.id}
+                        title={item.name}
+                        key={item.id}
+                        deleteHandler={deleteHandler}
+                        results={item.results}
+                      />
+                    ))}
 
                   {/* <!-- item -->  */}
                 </tbody>
